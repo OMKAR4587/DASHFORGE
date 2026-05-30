@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./CSS/Sidebar.css">
   <link rel="stylesheet" href="./CSS/Nav.css">
   <link rel="stylesheet" href="./CSS/Main.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 
 <body>
@@ -142,7 +143,7 @@
 
             </article>
 
-             <article class="crypto-card">
+            <article class="crypto-card">
 
               <span class="coin-icon">₿</span>
 
@@ -228,121 +229,142 @@
         <div class="chart">
         </div>
         <div class="market-overview">
-          <div class="market-types">
-            <button>All</button>
-            <button>Finance</button>
-            <button>Retail trade</button>
-            <button>Technology</button>
-             <button>Technology</button>
-              <button>Technology</button>
-          </div>  
-        <div class="Indices">
+          <h3 class="indices-header">Major Indices</h3>
+          <div class="heapmap-overlay" id="popup">
+            <button class="close-btn" id="closeBtn">✕</button>
+            <div class="market-map" id="treemap">
+            </div>
+            <div class="overlay-stock-info-section">
+               <article class="stock-info-card">
+
+              <div class="coin-icon">Ξ</div>
+
+              <div class="coin-info">
+                <h4>Ethereum</h4>
+                <p>$1,500</p>
+              </div>
+
+              <div class="coin-change positive">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+                <span> -1.12%</span>
+              </div>
+
+            </article>
+            </div>
+          </div>
+          <div class="Indices">
             <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-         <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          <article class="index-card">
-            <div class="card-info">
-              <div class="index-profile"></div>
-              <h5>Nashdaq 100</h5>
-              <span>NDX</span>
-            </div>
-            <div>
-              <p> 30,001.32<span>POINTS</span></p>
-              <span>+0.01%</span>
-            </div>
-          </article>
-          
-        </div>
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+            <article class="index-card">
+              <div class="card-info">
+                <div class="index-profile"></div>
+                <h5>Nashdaq 100</h5>
+                <span>NDX</span>
+              </div>
+              <div>
+                <p> 30,001.32<span>POINTS</span></p>
+                <span>+0.01%</span>
+              </div>
+            </article>
+
+          </div>
+          <div class="all-Indices" id="openBtn">
+            <span>See all major Indices</span>
+            <i class="fa-solid fa-angle-right"></i>
+          </div>
         </div>
       </section>
     </main>
   </div>
-
+   <script  src="./JAVASCRIPT/Data.js"></script>
+  <script type="module" src="./JAVASCRIPT/Modal.js"></script>
+  
 </body>
 
 </html>
