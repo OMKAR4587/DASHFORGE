@@ -1,12 +1,10 @@
-import { initChart } from "./api/Chart.js";
-import { main } from "./components/layout/main.js";
-import {initCategoryTabs,renderStockList } from "./components/small-features/stockList.js";
+import { dashboard } from "./pages/dashboard.js";
+import { initDashboard } from "./pages/dashboard.js";
+import { renderPage } from "./utils/renderPage.js";
 const app = document.getElementById('app');
 
 app.append(
-    main()
+    renderPage(dashboard())
 );
-initChart()
-renderStockList()
-initCategoryTabs()
-lucide.createIcons();
+
+await initDashboard();

@@ -1,9 +1,37 @@
-const BASE_URL = "https://api.twelvedata.com";
+import YahooFinance  from "yahoo-finance2";
+const yahooFinance = new YahooFinance();
 
-export async function getStockQuotes(symbols){
+export async function getStockQuotes(symbols) {
 
-    const response = await fetch(`${BASE_URL}/quote?symbol=${symbols.join(",")}&apikey=${process.env.TWELVE_DATA_API_KEY}`);
-    const data = await response.json();
+    const quotes = {};
 
-    return data;
+    const results = await Promise.all(
+        symbols.map(symbol => yahooFinance.quote(symbol))
+    );
+
+    results.forEach(stock => {
+        quotes[stock.symbol] = {
+            symbol: stock.symbol,
+            name: stock.longName || stock.shortName,
+            exchange: stock.fullExchangeName,
+            currency: stock.currency,
+
+            open: stock.regularMarketOpen,
+            high: stock.regularMarketDayHigh,
+            low: stock.regularMarketDayLow,
+
+            close: stock.regularMarketPrice,
+            previous_close: stock.regularMarketPreviousClose,
+
+            change: stock.regularMarketChange,
+
+            percent_change: stock.regularMarketChangePercent,
+
+            volume: stock.regularMarketVolume,
+
+            is_market_open: stock.marketState === "REGULAR"
+        };
+    });
+
+    return quotes;
 }

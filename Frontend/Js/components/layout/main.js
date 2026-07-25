@@ -1,10 +1,11 @@
 import { navbar } from "./navbar.js";
-import { dashboard } from "../../pages/dashboard.js";
-export function main() {
+
+export function main(page) {
     const main = document.createElement('main')
+
     main.append(
         navbar(),
-        dashboard()
+        page
     )
     return main;
 }

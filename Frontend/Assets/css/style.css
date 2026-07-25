@@ -24,17 +24,13 @@ body{
     background:#F8FAFC;
 }
 
-main{
-   
-}
-
 .dashboard-page{
     display:grid;
     grid-template-columns:1fr;
     grid-template-rows: 1fr auto;
     min-height:100vh;
     gap:20px;
-    padding:20px;
+    padding:8px 0px 0px 20px
 }
 
 @media (max-width:768px) {

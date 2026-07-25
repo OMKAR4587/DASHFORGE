@@ -23,7 +23,7 @@ export async function renderStockList() {
         marketState.quotesCache[marketState.currCategory] = quotes;
     
     } else {
-        alert(quotes?.message)
+        // alert(quotes?.message)
     }
 
     Object.values(quotes).forEach((stock) => {

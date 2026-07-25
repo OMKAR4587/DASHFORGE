@@ -28,9 +28,9 @@
 .overview-container {
     display: flex;
     gap: 10px;
-    max-height: 78vh;
+    max-height: 77vh;
     /* margin:10px 0px 0px 0px ; */
-    padding: 10px;
+    /* padding: 10px; */
     /* background: var(--surface); */
     border-radius: 10px;
     width: 100%;
