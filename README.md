@@ -6,6 +6,7 @@ A powerful, fast, and intuitive market monitoring website that provides real-tim
 ![License](https://img.shields.io/badge/License-MIT-blue)
 ![JavaScript](https://img.shields.io/badge/Frontend-Vanilla%20JS-yellow)
 ![Express](https://img.shields.io/badge/Backend-Express.js-green)
+![Node](https://img.shields.io/badge/Node.js-v14+-brightgreen)
 
 ---
 
@@ -16,7 +17,8 @@ A powerful, fast, and intuitive market monitoring website that provides real-tim
 ✅ **Fast & Lightweight** - Vanilla JavaScript for optimal performance  
 ✅ **Responsive Design** - Works seamlessly on desktop and mobile  
 ✅ **Market Insights** - Financial data and market trends  
-✅ **Easy Integration** - RESTful API backend  
+✅ **Easy Integration** - RESTful API backend with CORS support  
+✅ **MongoDB Support** - Store user data and favorites  
 
 ---
 
@@ -29,21 +31,24 @@ A powerful, fast, and intuitive market monitoring website that provides real-tim
 
 ### Backend
 - **Node.js** - JavaScript runtime
-- **Express.js** - Fast and minimal web framework
+- **Express.js v5.2.1** - Fast and minimal web framework
 - **RESTful API** - Clean API endpoints
+- **MongoDB** - Database for persistent storage
+- **CORS** - Cross-origin resource sharing
 
 ### APIs Integrated
-- **Twelve Data API** - Stock market data, prices, and quotes
 - **Yahoo Finance API** - Financial information and market data
+- **Twelve Data API** - Stock market data, prices, and quotes *(Optional)*
 
 ---
 
 ## 📦 Installation & Setup
 
 ### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
-- Git
+- **Node.js** v14 or higher ([Download](https://nodejs.org/))
+- **npm** or **yarn**
+- **Git**
+- MongoDB database (local or cloud)
 
 ### Clone the Repository
 ```bash
@@ -53,26 +58,35 @@ cd DASHFORGE
 
 ### Install Dependencies
 ```bash
+# Install backend dependencies
+cd Backend
 npm install
 ```
 
 ### Environment Setup
-Create a `.env` file in the root directory:
-```env
-PORT=5000
-TWELVE_DATA_API_KEY=your_twelve_data_api_key_here
-YAHOO_FINANCE_API_KEY=your_yahoo_finance_api_key_here
-NODE_ENV=development
+Create a `.env` file in the `Backend` directory using `.env.example`:
+```bash
+cp .env.example .env
 ```
 
-Get your API keys:
-- [Twelve Data API](https://twelvedata.com/) - Free tier available
-- [Yahoo Finance API](https://rapidapi.com/apidojo/api/yh-finance) - Via RapidAPI
+Edit `.env` with your credentials:
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017/dashforge
+YAHOO_FINANCE_API_KEY=your_key_here
+TWELVE_DATA_API_KEY=your_key_here
+```
+
+**Get your API keys:**
+- [Yahoo Finance API](https://rapidapi.com/apidojo/api/yh-finance) - Via RapidAPI (Free tier available)
+- [Twelve Data API](https://twelvedata.com/) - Free tier with 800 calls/day
 
 ### Run the Application
 
 **Development Mode:**
 ```bash
+cd Backend
 npm run dev
 ```
 
@@ -88,7 +102,7 @@ The application will be available at `http://localhost:5000`
 ## 📖 API Endpoints
 
 ### Get Stock Price
-```
+```http
 GET /api/stock/:symbol
 ```
 Returns current stock price and market data for the given symbol.
@@ -98,41 +112,74 @@ Returns current stock price and market data for the given symbol.
 curl http://localhost:5000/api/stock/AAPL
 ```
 
-### Get Market Data
+**Response:**
+```json
+{
+  "symbol": "AAPL",
+  "price": 150.25,
+  "change": 2.5,
+  "changePercent": 1.69,
+  "timestamp": "2026-07-25T10:30:00Z"
+}
 ```
+
+### Get Market Data
+```http
 GET /api/market/data/:symbol
 ```
 Returns detailed market and financial information.
 
 ### Search Stocks
-```
+```http
 GET /api/search?query=AAPL
 ```
 Search for stocks by symbol or company name.
+
+### Health Check
+```http
+GET /api/health
+```
+Check API server status.
 
 ---
 
 ## 🚀 Usage
 
-1. **Start the server**
-   ```bash
-   npm start
-   ```
+### 1. Start the Backend Server
+```bash
+cd Backend
+npm run dev
+```
+Server runs on `http://localhost:5000`
 
-2. **Open in browser**
-   ```
-   http://localhost:5000
-   ```
+### 2. Open Frontend
+```bash
+# In another terminal, navigate to frontend directory
+cd Frontend
+# Open index.html in browser or use a local server
+```
 
-3. **Search for stocks** and get real-time market data
+### 3. Search for Stocks
+- Enter stock symbol (e.g., AAPL, GOOGL, MSFT)
+- View real-time market data
+- Monitor price changes
 
-4. **Monitor your portfolio** with live price updates
+### 4. Monitor Your Portfolio
+- Track multiple stocks
+- Get market insights
+- View price history
 
 ---
 
 ## 📸 Screenshots
 
-*(Add your screenshots here)*
+*Screenshots coming soon! 🎨*
+
+### Features Showcase:
+- Stock price tracking interface
+- Market data visualization
+- Responsive mobile view
+- Real-time price updates
 
 ---
 
@@ -140,26 +187,34 @@ Search for stocks by symbol or company name.
 
 ```
 DASHFORGE/
-├── public/              # Frontend files
-│   ├── index.html
-│   ├── style.css
-│   └── script.js
-├── server/              # Backend files
-│   ├── routes/          # API routes
-│   ├── controllers/      # API logic
-│   ├── middleware/       # Custom middleware
-│   └── server.js        # Main server file
-├── .env                 # Environment variables
-├── package.json
-└── README.md
+├── Backend/
+│   ├── Routes/              # API routes
+│   ├── Controllers/         # API logic
+│   ├── Models/              # Database models
+│   ├── Middleware/          # Custom middleware
+│   ├── server.js            # Main server file
+│   ├── package.json
+│   └── .env                 # Environment variables (create from .env.example)
+│
+├── Frontend/
+│   ├── index.html           # Main HTML file
+│   ├── style.css            # Styling
+│   └── script.js            # JavaScript logic
+│
+├── .env.example             # Environment variables template
+├── .gitignore               # Git ignore rules
+├── LICENSE                  # MIT License
+├── CONTRIBUTING.md          # Contribution guidelines
+└── README.md                # This file
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! If you'd like to contribute:
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
+### Quick Start for Contributors:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
@@ -170,7 +225,16 @@ Contributions are welcome! If you'd like to contribute:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+MIT License means you can:
+- ✅ Use this project commercially
+- ✅ Modify the source code
+- ✅ Distribute the software
+- ✅ Use it privately
+
+**You must:**
+- ✅ Include the license and copyright notice
 
 ---
 
@@ -178,12 +242,19 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Found a bug? Have a feature request? Please open an [issue](https://github.com/OMKAR4587/DASHFORGE/issues) on GitHub.
 
+**Include:**
+- Clear description of the issue
+- Steps to reproduce
+- Expected vs actual behavior
+- Screenshots if applicable
+
 ---
 
 ## 📞 Contact & Support
 
-- **GitHub:** [OMKAR4587](https://github.com/OMKAR4587)
+- **GitHub:** [@OMKAR4587](https://github.com/OMKAR4587)
 - **Portfolio:** [OMKAR4587.github.io/Portfolio](https://OMKAR4587.github.io/Portfolio)
+- **Issues:** [GitHub Issues](https://github.com/OMKAR4587/DASHFORGE/issues)
 
 ---
 
@@ -191,10 +262,35 @@ Found a bug? Have a feature request? Please open an [issue](https://github.com/O
 
 - [Express.js Documentation](https://expressjs.com/)
 - [Twelve Data API Docs](https://twelvedata.com/docs)
+- [Yahoo Finance API](https://rapidapi.com/apidojo/api/yh-finance)
+- [MongoDB Documentation](https://docs.mongodb.com/)
 - [Vanilla JavaScript Guide](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [REST API Best Practices](https://restfulapi.net/)
+
+---
+
+## 🚀 Future Enhancements
+
+- [ ] Portfolio tracking feature
+- [ ] Price alerts and notifications
+- [ ] Historical price charts
+- [ ] User authentication
+- [ ] Watchlist functionality
+- [ ] Mobile app version
+- [ ] Advanced analytics
+- [ ] Social sharing features
+
+---
+
+## 📊 Project Stats
+
+- **Created:** April 2026
+- **Last Updated:** July 2026
+- **Status:** Active Development
+- **License:** MIT
 
 ---
 
 **Built with ❤️ by [Omkar](https://github.com/OMKAR4587)**
 
-*Last Updated: July 2026*
+*Happy Trading! 📈*
