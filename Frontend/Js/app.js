@@ -1,10 +1,10 @@
 import { dashboard } from "./pages/dashboard.js";
 import { initDashboard } from "./pages/dashboard.js";
+import { stockDetails } from "./pages/stockDetail.js";
 import { renderPage } from "./utils/renderPage.js";
+
 const app = document.getElementById('app');
 
-app.append(
-    renderPage(dashboard())
-);
+    renderPage(stockDetails())
 
 await initDashboard();

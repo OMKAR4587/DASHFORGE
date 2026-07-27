@@ -31,7 +31,8 @@ export function createStockItem(stock){
         <div class="stock-info">
 
             <div class="stock-logo">
-              <img src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"/>
+              <img src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"
+              onerror="this.src='../../../Assets/imgs/default-stock.png'"/>
             </div>
 
             <div>

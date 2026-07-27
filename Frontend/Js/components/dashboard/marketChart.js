@@ -23,9 +23,7 @@ export function marketChart() {
       <section class="chart-container">
        <div class="chart-wrapper">
         <div id="chart"></div>
-       </div>
-
-        <div class="time-filter">
+         <div class="time-filter">
             <button class="range-btn" data-range="1D">1 Day</button>
             <button class="range-btn" data-range="1M">1 Month</button>
             <button class="range-btn" data-range="3M">3 Months</button>
@@ -33,6 +31,7 @@ export function marketChart() {
             <button class="range-btn" data-range="5Y">5 Years</button>
             <button class="range-btn" data-range="ALL">ALL</button>
         </div>
+       </div>
 
       </section>
   
