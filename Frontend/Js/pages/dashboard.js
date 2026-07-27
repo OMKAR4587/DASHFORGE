@@ -2,7 +2,7 @@ import { summaryCard } from "../components/dashboard/summaryCard.js";
 import { marketTable } from "../components/dashboard/marketTable.js";
 import { marketChart } from "../components/dashboard/marketChart.js";
 import { Stories } from "../components/dashboard/Stories.js";
-import { initChart } from "../api/Chart.js";
+import { initChart } from "../api/dashboardChart.js";
 import { renderStockList, initCategoryTabs } from "../components/small-features/stockList.js";
 export function dashboard() {
 

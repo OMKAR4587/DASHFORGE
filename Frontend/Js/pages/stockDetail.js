@@ -3,7 +3,7 @@ import { financialMetrics } from "../components/stockDetails/financialMetrics.js
 import { newsSection } from "../components/stockDetails/newsSection.js";
 import { overview } from "../components/stockDetails/overviewCard.js";
 import { quickStats } from "../components/stockDetails/quickStats.js";
-import { stockChart } from "../components/stockDetails/stockChart.js";
+import { stockChart } from "../components/stockDetails/stockChartCard.js";
 import { stock } from "../state/marketState.js";
 export function stockDetails() {
 

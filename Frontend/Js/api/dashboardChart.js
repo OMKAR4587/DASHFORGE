@@ -1,11 +1,17 @@
-import { createStockChart, updateChart } from "../components/charts/stockChart.js";
+import { createChart, updateChart } from "../components/charts/stockChart.js";
 import { hideLoader, showLoader } from "../components/common/loader.js";
 import { marketState } from "../state/marketState.js";
 import { getHistory } from "./marketApi.js";
 
 export async function initChart() {
+    let chart ;
+    if (chart) {
 
-    const chart = await createStockChart("#chart")
+        destroyChart(chart);
+
+    }
+
+    chart = createChart("#chart");
 
     await loadChartData("1Y");
 
@@ -19,9 +25,9 @@ export async function initChart() {
 
         try {
             const cacheKey = `${marketState.currSymbol}_${range}`;
-            let  history = marketState.historyCache[cacheKey];
-            if(!history){
-                history = await getHistory(marketState.currSymbol,range)
+            let history = marketState.historyCache[cacheKey];
+            if (!history) {
+                history = await getHistory(marketState.currSymbol, range)
             }
             marketState.historyCache[cacheKey] = history;
 
@@ -31,20 +37,20 @@ export async function initChart() {
             const firstDate = chartData[0].x;
             const lastDate = chartData[chartData.length - 1].x;
 
-           updateChart(
-            chart,
-            marketState.currSymbol,
-            chartData
-           )
+            updateChart(
+                chart,
+                marketState.currSymbol,
+                chartData
+            )
 
-        } finally{
+        } finally {
 
             hideLoader('chart-loader')
 
-        } 
+        }
     }
 
-    
+
 
     function transformChartData(history) {
         console.log(history)

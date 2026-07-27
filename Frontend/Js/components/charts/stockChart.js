@@ -1,6 +1,6 @@
 import { getChartOption } from "./chartOptions.js";
 
-export  function createStockChart(selector) {
+export function createChart(selector) {
 
     const chart = new ApexCharts(
         document.querySelector(selector),
@@ -40,5 +40,15 @@ export function updateChart(chart, symbol, chartData) {
         }
 
     }, true, true);
+
+}
+
+export function destroyChart(chart){
+
+    if(chart){
+
+        chart.destroy();
+
+    }
 
 }

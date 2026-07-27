@@ -1,3 +1,4 @@
+import { initStcokChart } from "./components/charts/stockChartController.js";
 import { dashboard } from "./pages/dashboard.js";
 import { initDashboard } from "./pages/dashboard.js";
 import { stockDetails } from "./pages/stockDetail.js";
@@ -7,4 +8,5 @@ const app = document.getElementById('app');
 
     renderPage(stockDetails())
 
-await initDashboard();
+    await initStcokChart("AAPL")
+// await initDashboard();
