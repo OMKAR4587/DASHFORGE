@@ -4,8 +4,9 @@
 @import "./common/loader.css";
 @import "./pages/dashboard.css";
 @import "./pages/stockPage.css";
+@import "./common/dropdown.css";
 
-*{
+* {
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -15,9 +16,9 @@
 h1, h2, h3{
     font-weight: 700;
 }
-body{
+/* body{
     
-}
+} */
 
 #app{
     width:100%;

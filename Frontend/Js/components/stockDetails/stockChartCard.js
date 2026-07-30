@@ -1,33 +1,36 @@
-export function stockChart(){
+import { getHistory } from "../../api/marketApi.js";
+import { initRangeEvent } from "../../utils/chartRangeEvent.js";
+import { chartHeader } from "../charts/chartHeader.js";
+import { createLoader } from "../common/loader.js";
+
+
+export function stockChart(stock) {
+
 
     const section = document.createElement("section");
 
     section.className = "card stock-chart-card";
 
-    section.innerHTML = `
+    section.append(
 
-        <div class="stock-chart-header">
+        chartHeader({
+            title: "Price Performance",
+            subtitle: "Historical Market Data",
+            ranges: ["1D", "1M", "3M", "1Y", "5Y", "ALL"],
+            showToolbar: true
+        })
 
-            <div>
+    );
 
-                <h3>Price Chart</h3>
+    const chart = document.createElement("div");
 
-                <p>Interactive price history</p>
+    chart.id = "stock-chart";
 
-            </div>
+    section.append(chart);
 
-            <div class="chart-actions">
+    const loader = createLoader("chart-loader")
 
-                <!-- पुढे toolbar -->
-
-            </div>
-
-        </div>
-
-        <div id="stock-chart"></div>
-
-    `;
+    section.appendChild(loader)
 
     return section;
-
 }

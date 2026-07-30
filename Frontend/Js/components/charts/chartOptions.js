@@ -7,7 +7,7 @@ export function getChartOption() {
         chart: {
 
             type: "area",
-
+            
             height: 376,
 
             toolbar: {

@@ -1,5 +1,4 @@
 .stock-details-page{
-
     display:flex;
     
     flex-direction:column;
@@ -10,20 +9,7 @@
 
 }
 
-.stock-chart{
-
-    min-height:550px;
-
-}
-
-.quick-stats{
-
-    min-height:550px;
-
-}
-
 .stock-top-section{
-
     display:grid;
 
     grid-template-columns:2fr 1fr;
@@ -50,7 +36,7 @@
 
     display:flex;
 
-    justify-content:space-between;
+    justify-content:space-between;   
 
     align-items:center;
 
@@ -145,12 +131,62 @@
 }
 
 @media(max-width:992px){
-
+ 
     .stock-top-section{
 
         grid-template-columns:1fr;
 
     }
+
+}
+
+/* stock chart  */
+
+.stock-chart-card{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.stock-page-chart-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.chart-title h3{
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.chart-title p{
+
+    margin-top:4px;
+
+    color:var(--text-muted);
+
+    font-size:14px;
+
+}
+
+.chart-range{
+
+    display:flex;
+
+    gap:8px;
 
 }
 /* quickstate section  */
@@ -328,7 +364,14 @@
 }
 
 @media(max-width:576px){
-
+    .stock-chart-card{
+        padding: 20px 4px;
+    }
+       .stock-page-chart-header{
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+    }
     .financial-grid{
 
         grid-template-columns:1fr;

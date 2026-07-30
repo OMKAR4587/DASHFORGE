@@ -1,6 +1,8 @@
 import { createChart, updateChart } from "../components/charts/stockChart.js";
 import { hideLoader, showLoader } from "../components/common/loader.js";
 import { marketState } from "../state/marketState.js";
+import { initRangeEvent } from "../utils/chartRangeEvent.js";
+import { transformChartData } from "../utils/transformChartData.js";
 import { getHistory } from "./marketApi.js";
 
 export async function initChart() {
@@ -31,7 +33,7 @@ export async function initChart() {
             }
             marketState.historyCache[cacheKey] = history;
 
-            const chartData = transformChartData(history);
+            const chartData = transformChartData(history.values);
             console.log(chartData)
 
             const firstDate = chartData[0].x;
@@ -52,23 +54,10 @@ export async function initChart() {
 
 
 
-    function transformChartData(history) {
-        console.log(history)
-        return history.values
-            .reverse()
-            .map(item => ({
-                x: item.datetime,
-                y: Number(item.close)
-            }));
-    }
 
-    const timeBtn = document.querySelectorAll('.range-btn');
-    timeBtn.forEach((button) => {
-        button.addEventListener("click", () => {
-            timeBtn.forEach(btn => btn.classList.remove('active'))
-            button.classList.add('active')
-            marketState.currRange = button.dataset.range
-            loadChartData(marketState.currRange)
-        })
+    // loading chart based on range  
+    initRangeEvent((range)=>{
+        marketState.currRange = range;
+        loadChartData(marketState.currRange);
     })
 }

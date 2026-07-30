@@ -1,10 +1,13 @@
+import { getHistory } from "../api/marketApi.js";
+import { updateChart } from "../components/charts/stockChart.js";
 import { companyHeader } from "../components/stockDetails/companyHeader.js";
 import { financialMetrics } from "../components/stockDetails/financialMetrics.js";
 import { newsSection } from "../components/stockDetails/newsSection.js";
 import { overview } from "../components/stockDetails/overviewCard.js";
 import { quickStats } from "../components/stockDetails/quickStats.js";
 import { stockChart } from "../components/stockDetails/stockChartCard.js";
-import { stock } from "../state/marketState.js";
+import { marketState, stock } from "../state/marketState.js";
+
 export function stockDetails() {
 
     const page = document.createElement("div");
