@@ -17,7 +17,7 @@ function formatNumber(value) {
     return value.toLocaleString();
 }
 
-export function quickStats(stock) {
+export function quickStats(stock,marketCap) {
 
     const card = document.createElement("section");
 
@@ -30,32 +30,32 @@ export function quickStats(stock) {
 
             <div class="stat-row">
                 <span>Open</span>
-                <strong>$${stock.regularMarketOpen ?? "-"}</strong>
+                <strong>$${stock.open ?? "-"}</strong>
             </div>
 
             <div class="stat-row">
                 <span>Previous Close</span>
-                <strong>$${stock.regularMarketPreviousClose ?? "-"}</strong>
+                <strong>$${stock.previous_close ?? "-"}</strong>
             </div>
 
             <div class="stat-row">
                 <span>Day High</span>
-                <strong>$${stock.regularMarketDayHigh ?? "-"}</strong>
+               <strong>$${stock.high ?? "-"}</strong>
             </div>
 
             <div class="stat-row">
                 <span>Day Low</span>
-                <strong>$${stock.regularMarketDayLow ?? "-"}</strong>
+                <strong>$${stock.low ?? "-"}</strong>
             </div>
 
             <div class="stat-row">
                 <span>Volume</span>
-                <strong>${formatNumber(stock.regularMarketVolume)}</strong>
+                <strong>${formatNumber(stock.volume)}</strong>
             </div>
 
             <div class="stat-row">
                 <span>Market Cap</span>
-                <strong>${formatNumber(stock.marketCap)}</strong>
+               <strong>${formatNumber(marketCap)}</strong>
             </div>
 
         </div>

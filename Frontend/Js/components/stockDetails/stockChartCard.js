@@ -4,7 +4,7 @@ import { chartHeader } from "../charts/chartHeader.js";
 import { createLoader } from "../common/loader.js";
 
 
-export function stockChart(stock) {
+export function stockChart() {
 
 
     const section = document.createElement("section");

@@ -16,6 +16,8 @@ function formatNumber(value) {
 
 export function financialMetrics(stock) {
 
+    const {summaryDetail,defaultKeyStatistics,financialData} = stock;
+
     const card = document.createElement("section");
 
     card.className = "card financial-card";
@@ -28,62 +30,68 @@ export function financialMetrics(stock) {
 
             <div class="metric-card">
                 <span>P/E Ratio</span>
-                <strong>${stock.trailingPE}</strong>
+                <strong>${summaryDetail?.trailingPE ?? "-"}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Forward P/E</span>
-                <strong>${stock.forwardPE}</strong>
+                <strong>${summaryDetail?.forwardPE ?? "-"}</strong>
             </div>
 
             <div class="metric-card">
                 <span>EPS</span>
-                <strong>$${stock.epsTrailingTwelveMonths}</strong>
+                <strong>$${defaultKeyStatistics?.trailingEps ?? "-"}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Dividend Yield</span>
-                <strong>${stock.dividendYield}%</strong>
+                <strong>
+                    ${
+                        summaryDetail?.dividendYield
+                            ? (summaryDetail.dividendYield * 100).toFixed(2)
+                            : "-"
+                    }%
+                </strong>
             </div>
 
             <div class="metric-card">
                 <span>Beta</span>
-                <strong>${stock.beta}</strong>
+                <strong>${defaultKeyStatistics?.beta ?? "-"}</strong>
             </div>
 
             <div class="metric-card">
                 <span>52 Week High</span>
-                <strong>$${stock.fiftyTwoWeekHigh}</strong>
+                <strong>$${summaryDetail?.fiftyTwoWeekHigh ?? "-"}</strong>
             </div>
 
             <div class="metric-card">
                 <span>52 Week Low</span>
-                <strong>$${stock.fiftyTwoWeekLow}</strong>
+                <strong>$${summaryDetail?.fiftyTwoWeekLow ?? "-"}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Revenue</span>
-                <strong>${formatNumber(stock.totalRevenue)}</strong>
+                <strong>${formatNumber(financialData?.totalRevenue)}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Free Cash Flow</span>
-                <strong>${formatNumber(stock.freeCashflow)}</strong>
+                <strong>${formatNumber(financialData?.freeCashflow)}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Total Cash</span>
-                <strong>${formatNumber(stock.totalCash)}</strong>
+                <strong>${formatNumber(financialData?.totalCash)}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Total Debt</span>
-                <strong>${formatNumber(stock.totalDebt)}</strong>
+                <strong>${formatNumber(financialData?.totalDebt)}</strong>
             </div>
 
             <div class="metric-card">
                 <span>Shares Outstanding</span>
-                <strong>${formatNumber(stock.sharesOutstanding)}</strong>
+                <strong>${formatNumber(defaultKeyStatistics?.sharesOutstanding)}</strong>
             </div>
 
         </div>
@@ -91,5 +99,4 @@ export function financialMetrics(stock) {
     `;
 
     return card;
-
 }

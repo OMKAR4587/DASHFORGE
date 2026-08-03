@@ -38,7 +38,7 @@ export function overview(stock) {
 
             <div class="overview-item">
                 <span>Website</span>
-                <strong>${stock.website || "-"}</strong>
+                <strong><a href=${stock.website}>${stock.website || "-"}</a> </strong>
             </div>
 
         </div>

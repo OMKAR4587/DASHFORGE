@@ -23,3 +23,23 @@ export async function getQuotes(symbols) {
 
     return data.data;
 }
+
+export async function getQuote(symbol){
+
+    const quotes = await getQuotes([symbol]);
+
+    return quotes[symbol];
+
+}
+export async function getNews(symbol){
+    
+    const response = await fetch(`${BASEURL}/market/news?symbol=${symbol}`);
+
+    if(!response.ok){
+        throw new Error("failed to fatche api");   
+    }
+
+    const newsData = await response.json();
+    
+    return newsData
+}

@@ -1,4 +1,23 @@
-export function newsSection(stock) {
+function timeAgo(dateString) {
+
+    if (!dateString) return "-";
+
+    const date = new Date(dateString);
+
+    const diff = Math.floor((Date.now() - date.getTime()) / 1000);
+
+    const minutes = Math.floor(diff / 60);
+    const hours = Math.floor(diff / 3600);
+    const days = Math.floor(diff / 86400);
+
+    if (minutes < 60) return `${minutes}m ago`;
+    if (hours < 24) return `${hours}h ago`;
+    if (days < 7) return `${days}d ago`;
+
+    return date.toLocaleDateString();
+}
+
+export function newsSection(news = []) {
 
     const card = document.createElement("section");
 
@@ -10,28 +29,63 @@ export function newsSection(stock) {
 
         <div class="news-list">
 
-            ${stock.news.map(news => `
+            ${!news.length
+            ? `
+                        <div class="news-empty">
+                            No news available.
+                        </div>
+                    `
+            : news.map(item => {
 
-                <article class="news-item">
+                const image =
+                    item.thumbnail?.resolutions?.find(
+                        img => img.tag === "140x140"
+                    )?.url
+                    ||
+                    item.thumbnail?.resolutions?.[0]?.url
+                    ||
+                    "https://placehold.co/140x90?text=News";
 
-                    <h4>${news.title}</h4>
+                return `
 
-                    <div class="news-meta">
+                            <a
+                                href="${item.link}"
+                                target="_blank"
+                                class="news-item">
 
-                        <span>${news.source}</span>
+                                <img
+                                    src="${image}"
+                                    class="news-image"
+                                    alt="${item.title}"
+                                />
 
-                        <span>${news.date}</span>
+                                <div class="news-content">
 
-                    </div>
+                                    <h4 class="news-title">
+                                        ${item.title}
+                                    </h4>
 
-                </article>
+                                    <div class="news-meta">
 
-            `).join("")}
+                                        <span>${item.publisher}</span>
+
+                                        <span>•</span>
+
+                                        <span>${timeAgo(item.providerPublishTime)}</span>
+
+                                    </div>
+
+                                </div>
+
+                            </a>
+
+                        `;
+            }).join("")
+        }
 
         </div>
 
     `;
 
     return card;
-
 }

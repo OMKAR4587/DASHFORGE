@@ -1,3 +1,9 @@
+import { navigate } from "../../router/router.js";
+import { searchStocks } from "../../service/searchService.js";
+import { marketState } from "../../state/marketState.js";
+import { debounce } from "../../utils/debounce.js";
+import { searchDropdown } from "../common/searchDropedown.js";
+
 export function navbar() {
 
     const nav = document.createElement("header");
@@ -76,6 +82,38 @@ export function navbar() {
         </div>
 
     `;
+
+    const input = nav.querySelector(".search-box input");
+
+    const searchHandler = debounce(async (e) => {
+        console.log("Input:", e.target.value);
+        const value = e.target.value.trim();
+        const old = nav.querySelector(".search-dropdown");
+
+        if (old) {
+            old.remove()
+        }
+
+        if (!value) return;
+
+        const stocks = await searchStocks(value);
+
+        const dropdown = searchDropdown(stocks, (stock) => {
+
+            marketState.selectedStock = stock
+            input.value = "";
+
+            document.querySelector(".search-dropdown")?.remove();
+            navigate(`/stock/${stock.symbol}`);
+
+        });
+
+        nav.querySelector(".search-box")
+            .append(dropdown);
+
+    }, 300)
+
+    input.addEventListener("input", searchHandler)
 
     return nav;
 

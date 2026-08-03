@@ -1,10 +1,22 @@
-export function companyHeader(stock) {
+import { isInWatchlist, toggleWatchlist, updateWatchListButton } from "../../service/watchlistService.js";
 
-    const section = document.createElement("section");
+export function companyHeader(stock, quote) {
 
-    section.className = "company-header";
+    const section = document.createElement("section")
+    section.className = "stock-page-top-section"
 
-    section.innerHTML = `
+    const watchlistDiv = document.createElement("div");
+    watchlistDiv.className = "right-watchlist-container";
+    watchlistDiv.innerHTML = `
+     <button id="watchlist-btn" class="watchlist-btn">
+
+     </button>`
+
+    const companyHeader = document.createElement("div");
+
+    companyHeader.className = "company-header";
+
+    companyHeader.innerHTML = `
 
      <div class="company-left">
 
@@ -26,17 +38,30 @@ export function companyHeader(stock) {
 
         <div class="company-right">
 
-            <h2>$${Number(stock.price).toFixed(2)}</h2>
+            <h2>$${Number(quote.close).toFixed(2)}</h2>
 
-           <span class="${stock.change >= 0 ? "price-up" : "price-down"}">
+           <span class="${quote.change >= 0 ? "price-up" : "price-down"}">
 
-             ${stock.change > 0 ? "+" : ""}${stock.change}
+             ${quote.change > 0 ? "+" : ""}${quote.change.toFixed(2)}
 
-            (${stock.percent > 0 ? "+" : ""}${stock.percent}%)
+            (${quote.percent_change > 0 ? "+" : ""}${quote.percent_change.toFixed(2)}%)
 
            </span>
 
         </div>
     `;
+    section.append(companyHeader, watchlistDiv)
+
+    const btn = watchlistDiv.querySelector("#watchlist-btn");
+
+    updateWatchListButton(btn, stock.symbol);
+
+    btn.addEventListener("click", () => {
+        toggleWatchlist(stock);
+        updateWatchListButton(btn, stock.symbol);
+    })
+
+
     return section
+
 }

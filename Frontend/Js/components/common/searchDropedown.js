@@ -1,8 +1,8 @@
-export function searchDropdown(stock = []) {
+export function searchDropdown(stocks = [], onSelect) {
     const dropdown = document.createElement("div");
     dropdown.className = "search-dropdown";
 
-    if (stock.length === 0) {
+    if (!stocks.length) {
         dropdown.innerHTML = `
         <div class="search-empty">
            No stocks found
@@ -11,8 +11,7 @@ export function searchDropdown(stock = []) {
         return dropdown;
     }
 
-    stock.forEach((stock) => {
-
+    stocks.forEach((stock) => {  
         const item = document.createElement("div");
 
         item.className = "search-item";
@@ -25,7 +24,7 @@ export function searchDropdown(stock = []) {
         
         <img 
         src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"
-        class="search-logo/>
+        class="search-logo"/>
 
         <div>
 
@@ -35,9 +34,11 @@ export function searchDropdown(stock = []) {
         </div>
 
         </div>`
-
+         item.addEventListener("click",()=>{
+            onSelect?.(stock)
+        })
         dropdown.append(item);
-    });
 
+    });
     return dropdown;
 }
