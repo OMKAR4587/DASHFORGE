@@ -1,3 +1,4 @@
+import { watchlistModal } from "../common/watchlistModal.js";
 import { navbar } from "./navbar.js";
 
 export function main(page) {
@@ -5,6 +6,7 @@ export function main(page) {
 
     main.append(
         navbar(),
+        watchlistModal(),
         page
     )
     return main;

@@ -1,5 +1,5 @@
 import { marketState } from "../../state/marketState.js";
-
+// import borkenImg from "../../../Assets/imgs/brokenImg.png"
 export function updateSelectedStock() {
 
     document
@@ -32,7 +32,7 @@ export function createStockItem(stock){
 
             <div class="stock-logo">
               <img src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"
-              onerror="this.src='../../../Assets/imgs/default-stock.png'"/>
+              onerror="this.src='../../../Assets/imgs/brokenImg.png'"/>
             </div>
 
             <div>

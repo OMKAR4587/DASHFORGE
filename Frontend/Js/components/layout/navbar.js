@@ -2,6 +2,7 @@ import { navigate } from "../../router/router.js";
 import { searchStocks } from "../../service/searchService.js";
 import { marketState } from "../../state/marketState.js";
 import { debounce } from "../../utils/debounce.js";
+import { profileDropdown } from "../common/profileDropdown.js";
 import { searchDropdown } from "../common/searchDropedown.js";
 
 export function navbar() {
@@ -62,23 +63,6 @@ export function navbar() {
 
             </button>
 
-            <button class="profile-btn">
-
-                <img
-                    src="https://i.pravatar.cc/40"
-                    alt="Profile"
-                >
-
-                <div>
-
-                    <strong>Rahul</strong>
-
-                    <small>Investor</small>
-
-                </div>
-
-            </button>
-
         </div>
 
     `;
@@ -113,8 +97,11 @@ export function navbar() {
 
     }, 300)
 
-    input.addEventListener("input", searchHandler)
+    input.addEventListener("input", searchHandler);
 
+    const right = nav.querySelector(".navbar-right");
+    right.append(profileDropdown());
+    
     return nav;
 
 }

@@ -5,6 +5,8 @@
 @import "./pages/dashboard.css";
 @import "./pages/stockPage.css";
 @import "./common/dropdown.css";
+@import "./common//watchlistModal.css";
+
 
 * {
     margin: 0;

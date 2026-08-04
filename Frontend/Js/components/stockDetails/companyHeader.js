@@ -1,5 +1,4 @@
 import { isInWatchlist, toggleWatchlist, updateWatchListButton } from "../../service/watchlistService.js";
-
 export function companyHeader(stock, quote) {
 
     const section = document.createElement("section")
@@ -23,7 +22,7 @@ export function companyHeader(stock, quote) {
             <img
                 src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"
                 class="company-logo"
-                onerror="this.src='../../../Assets/imgs/default-stock.png'"
+                onerror="this.src='../../../Assets/imgs/brokenImg.png'"
             />
 
             <div>

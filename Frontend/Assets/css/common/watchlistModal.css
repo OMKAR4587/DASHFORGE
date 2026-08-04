@@ -1,0 +1,95 @@
+.watchlist-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:9999;
+
+}
+
+.watchlist-modal.hidden{
+
+    display:none;
+
+}
+
+.watchlist-overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+}
+
+.watchlist-panel{
+
+    position:absolute;
+
+    top:0;
+
+    right:0;
+
+    width:380px;
+
+    height:100vh;
+
+    background:var(--surface);
+
+    box-shadow:-8px 0 30px rgba(0,0,0,.15);
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.watchlist-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:1rem 1.25rem;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.close-watchlist{
+
+    width:36px;
+
+    height:36px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    font-size:1.1rem;
+
+}
+
+.close-watchlist:hover{
+
+    background:#f3f4f6;
+
+}
+
+.watchlist-content{
+
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:1rem;
+
+}
