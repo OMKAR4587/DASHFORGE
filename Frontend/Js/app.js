@@ -11,15 +11,16 @@ const app = document.getElementById('app');
 
 renderPage(dashboard());
 await initDashboard();
+lucide.createIcons();
 window.addEventListener("routeChange", async () => {
 
     const quote = await getQuote(marketState.selectedStock.symbol);
 
     const latestNews = await getNews(marketState.selectedStock.symbol);
-    
+
     const stockData = await getStockData(marketState.selectedStock.symbol);
 
-    renderPage(stockDetails(quote,stockData,latestNews));
+    renderPage(stockDetails(quote, stockData, latestNews));
 
     await initStcokChart(marketState.selectedStock.symbol);
 

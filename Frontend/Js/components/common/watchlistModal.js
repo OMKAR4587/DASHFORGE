@@ -1,4 +1,5 @@
 import { closeWatchlist, registerWatchList } from "../../controller/watchlistController.js";
+import { marketState } from "../../state/marketState.js";
 
 export function watchlistModal() {
 
@@ -14,8 +15,7 @@ export function watchlistModal() {
 
             <div class="watchlist-header">
 
-                <h2>
-                    ⭐ My Watchlist
+                <h2 class="watchlist-title">
                 </h2>
 
                 <button class="close-watchlist">
@@ -36,6 +36,8 @@ export function watchlistModal() {
 
     registerWatchList(modal);
 
+
+
     const closeBtn = modal.querySelector(".close-watchlist");
 
     const overlay = modal.querySelector(".watchlist-overlay");
@@ -44,5 +46,15 @@ export function watchlistModal() {
 
     overlay.addEventListener("click", closeWatchlist)
     return modal;
+
+}
+
+export function updateWatchlistCount() {
+
+    const title = document.querySelector(".watchlist-title");
+
+    if (!title) return;
+
+    title.textContent = `⭐ My Watchlist (${marketState.watchlist.length})`;
 
 }

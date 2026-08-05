@@ -7,6 +7,5 @@ export function renderPage(page) {
     app.append(
         main(page)
     )
-    
     lucide.createIcons();
 }

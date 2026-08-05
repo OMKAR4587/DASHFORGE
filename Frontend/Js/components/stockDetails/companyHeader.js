@@ -1,3 +1,4 @@
+import { syncWatchlistUI } from "../../controller/watchlistController.js";
 import { isInWatchlist, toggleWatchlist, updateWatchListButton } from "../../service/watchlistService.js";
 export function companyHeader(stock, quote) {
 
@@ -22,7 +23,6 @@ export function companyHeader(stock, quote) {
             <img
                 src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"
                 class="company-logo"
-                onerror="this.src='../../../Assets/imgs/brokenImg.png'"
             />
 
             <div>
@@ -58,8 +58,8 @@ export function companyHeader(stock, quote) {
     btn.addEventListener("click", () => {
         toggleWatchlist(stock);
         updateWatchListButton(btn, stock.symbol);
+        syncWatchlistUI(stock.symbol);
     })
-
 
     return section
 

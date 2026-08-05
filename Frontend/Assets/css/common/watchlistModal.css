@@ -1,95 +1,440 @@
+/* ===========================
+   WATCHLIST MODAL
+=========================== */
+
 .watchlist-modal{
-
     position:fixed;
-
     inset:0;
-
     z-index:9999;
-
 }
 
 .watchlist-modal.hidden{
-
     display:none;
-
 }
+
+/* Overlay */
 
 .watchlist-overlay{
-
     position:absolute;
-
     inset:0;
-
-    background:rgba(0,0,0,.45);
-
+    background:rgba(15,23,42,.45);
+    backdrop-filter:blur(4px);
 }
 
+/* ===========================
+   DRAWER
+=========================== */
+
 .watchlist-panel{
-
     position:absolute;
-
+    right:0;
     top:0;
 
-    right:0;
-
-    width:380px;
-
+    width:400px;
+    max-width:100%;
     height:100vh;
+
+    display:flex;
+    flex-direction:column;
 
     background:var(--surface);
 
-    box-shadow:-8px 0 30px rgba(0,0,0,.15);
+    border-left:1px solid var(--border);
 
-    display:flex;
+    box-shadow:-10px 0 35px rgba(0,0,0,.12);
 
-    flex-direction:column;
-
+    animation:slideDrawer .25s ease;
 }
 
+/* ===========================
+   HEADER
+=========================== */
+
 .watchlist-header{
-
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
 
-    padding:1rem 1.25rem;
+    padding:1.25rem 1.4rem;
 
     border-bottom:1px solid var(--border);
 
+    background:var(--surface);
+
+    position:sticky;
+    top:0;
+    z-index:2;
+}
+
+.watchlist-title{
+    display:flex;
+    flex-direction:column;
+    gap:.2rem;
+}
+
+.watchlist-title h2{
+    margin:0;
+    font-size:1.2rem;
+    font-weight:700;
+}
+
+.watchlist-title small{
+    color:var(--text-secondary);
+    font-size:.8rem;
 }
 
 .close-watchlist{
-
-    width:36px;
-
-    height:36px;
+    width:42px;
+    height:42px;
 
     border:none;
-
-    border-radius:50%;
+    border-radius:12px;
 
     background:transparent;
 
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
     cursor:pointer;
 
-    font-size:1.1rem;
-
+    transition:.25s;
 }
 
 .close-watchlist:hover{
-
-    background:#f3f4f6;
-
+    background:rgba(37,99,235,.08);
+    color:var(--primary);
 }
 
-.watchlist-content{
+/* ===========================
+   CONTENT
+=========================== */
 
+.watchlist-content{
     flex:1;
 
     overflow-y:auto;
 
+    display:flex;
+    flex-direction:column;
+
+    gap:.9rem;
+
     padding:1rem;
+}
+
+.watchlist-content::-webkit-scrollbar{
+    width:6px;
+}
+
+.watchlist-content::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:999px;
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.watchlist-card{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:1rem;
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    transition:.25s;
+}
+
+.watchlist-card:hover{
+
+    transform:translateY(-2px);
+
+    border-color:var(--primary);
+
+    box-shadow:0 12px 24px rgba(0,0,0,.08);
+
+}
+
+/* ===========================
+   LEFT
+=========================== */
+
+.watchlist-left{
+
+    display:flex;
+    align-items:center;
+
+    gap:1rem;
+
+    min-width:0;
+
+}
+
+.watchlist-logo{
+
+    width:52px;
+    height:52px;
+
+    border-radius:14px;
+
+    object-fit:cover;
+
+    background:#fff;
+
+    border:1px solid var(--border);
+
+    flex-shrink:0;
+
+}
+
+.watchlist-info{
+
+    display:flex;
+    flex-direction:column;
+
+    min-width:0;
+
+}
+
+.watchlist-info h4{
+
+    margin:0;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+.watchlist-info p{
+
+    margin-top:.3rem;
+
+    color:var(--text-secondary);
+
+    font-size:.82rem;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+    max-width:180px;
+
+}
+
+/* ===========================
+   ACTIONS
+=========================== */
+
+.watchlist-actions{
+
+    display:flex;
+
+    gap:.6rem;
+
+}
+
+.view-stock,
+.remove-stock{
+
+    width:40px;
+    height:40px;
+
+    border:none;
+
+    border-radius:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.view-stock{
+
+    background:rgba(37,99,235,.12);
+
+    color:var(--primary);
+
+}
+
+.view-stock:hover{
+
+    background:var(--primary);
+
+    color:#fff;
+
+}
+
+.remove-stock{
+
+    background:rgba(220,38,38,.08);
+
+    color:#dc2626;
+
+}
+
+.remove-stock:hover{
+
+    background:#dc2626;
+
+    color:#fff;
+
+}
+
+.view-stock svg,
+.remove-stock svg{
+
+    width:18px;
+    height:18px;
+
+}
+
+/* ===========================
+   EMPTY STATE
+=========================== */
+
+.empty-watchlist{
+
+    flex:1;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    gap:.8rem;
+
+    color:var(--text-secondary);
+
+}
+
+.empty-watchlist svg{
+
+    width:56px;
+    height:56px;
+
+    color:#cbd5e1;
+
+}
+
+.empty-watchlist h3{
+
+    margin:0;
+
+    color:var(--text);
+
+}
+
+.empty-watchlist p{
+
+    margin:0;
+
+    max-width:220px;
+
+    line-height:1.5;
+
+}
+
+/* ===========================
+   ANIMATION
+=========================== */
+
+@keyframes slideDrawer{
+
+    from{
+
+        transform:translateX(100%);
+        opacity:.5;
+
+    }
+
+    to{
+
+        transform:translateX(0);
+        opacity:1;
+
+    }
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+    .watchlist-panel{
+
+        width:100%;
+
+    }
+
+    .watchlist-card{
+
+        padding:.9rem;
+
+    }
+
+    .watchlist-logo{
+
+        width:46px;
+        height:46px;
+
+    }
+
+    .watchlist-info p{
+
+        max-width:130px;
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    .watchlist-actions{
+
+        gap:.4rem;
+
+    }
+
+    .view-stock,
+    .remove-stock{
+
+        width:36px;
+        height:36px;
+
+    }
+
+    .watchlist-info h4{
+
+        font-size:.9rem;
+
+    }
+
+    .watchlist-info p{
+
+        font-size:.75rem;
+
+    }
 
 }
