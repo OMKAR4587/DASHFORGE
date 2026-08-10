@@ -1,11 +1,19 @@
 import { main } from "../components/layout/main.js";
 
 const app = document.querySelector("#app");
-export function renderPage(page) {
+
+export function renderPage(page, useMain = true) {
     app.innerHTML = ""
 
-    app.append(
-        main(page)
-    )
+    if (useMain) {
+
+        app.append(main(page) )
+        
+    }else{
+
+        app.append(page)
+
+    }
+
     lucide.createIcons();
 }

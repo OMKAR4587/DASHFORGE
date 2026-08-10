@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
+import User from "../models/user.js";
 
-export function protect(req, res, next){
+export async function protect(req, res, next){
     try{
         const authHeader = req.headers.authorization;
 
@@ -17,8 +18,15 @@ export function protect(req, res, next){
             process.env.JWT_SECRET
         );
 
-        req.userId = decoded.userId;
+        const user = await User.findById(decoded.userId);
 
+        if(!user){
+            return res.status(401).json({
+                message:"user no longer exist"
+            })
+        }
+
+        req.user = user
         next();
 
     }catch(error){

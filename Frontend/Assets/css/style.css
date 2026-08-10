@@ -6,6 +6,7 @@
 @import "./pages/stockPage.css";
 @import "./common/dropdown.css";
 @import "./common//watchlistModal.css";
+@import "./pages/auth.css";
 
 
 * {

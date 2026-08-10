@@ -6,6 +6,8 @@ import jwt from "jsonwebtoken";
 export async function signup(req, res) {
     const { name, email, password } = req.body;
 
+    console.log(req.body);
+    
     if (!name || !email || !password) {
         return res.status(400).json({
             message: "all fields are required"
@@ -65,5 +67,11 @@ export async function login(req, res){
     res.json({
         message:"Login sucessfull",
         token
+    })
+}
+
+export function getMe(req, res){
+    return res.status(200).json({
+        user:req.user
     })
 }

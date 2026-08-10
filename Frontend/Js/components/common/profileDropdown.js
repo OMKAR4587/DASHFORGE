@@ -1,24 +1,27 @@
 import { openWatchlist } from "../../controller/watchlistController.js";
+import { navigate } from "../../router/router.js";
+import { authState, clearAuth } from "../../state/authState.js";
 
 export function profileDropdown() {
 
     const container = document.createElement("div");
 
+    const user = authState.user;
     container.className = "profile-dropdown";
 
     container.innerHTML = `
 
     <button class="profile-btn">
 
-        <img
-        src="https://i.pravatar.cc/40"
-        alt="Profile">
+       <div class="profile-avatar">
+                ${user?.name?.charAt(0).toUpperCase() || "U"}
+            </div>
 
     <div>
 
-        <strong>Rahul</strong>
+        <strong>${user.name}</strong>
 
-        <small>Investor</small>
+        <small>${user.email}</small>
 
     </div>
         <i data-lucide="chevron-down"></i>
@@ -43,6 +46,12 @@ export function profileDropdown() {
     const profileBtn = container.querySelector(".profile-btn");
     const dropdown = container.querySelector(".dropdown-menu");
     const watchlistBtn = container.querySelector(".watchlist-option");
+    const logOff = container.querySelector(".logout-option");
+
+    logOff.addEventListener("click", () => {
+        clearAuth();
+        navigate("/");
+    })
 
     profileBtn.addEventListener("click", (e) => {
 
@@ -60,7 +69,7 @@ export function profileDropdown() {
 
     });
 
-    watchlistBtn.addEventListener("click",()=>{
+    watchlistBtn.addEventListener("click", () => {
         openWatchlist()
     })
     return container

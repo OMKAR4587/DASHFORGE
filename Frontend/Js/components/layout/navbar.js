@@ -1,3 +1,4 @@
+import { dashboard } from "../../pages/dashboard.js";
 import { navigate } from "../../router/router.js";
 import { searchStocks } from "../../service/searchService.js";
 import { marketState } from "../../state/marketState.js";
@@ -68,6 +69,12 @@ export function navbar() {
     `;
 
     const input = nav.querySelector(".search-box input");
+
+    const logoClick = nav.querySelector(".navbar-left");
+
+    logoClick.addEventListener("click", ()=>{
+        navigate("/dashboard")
+    })
 
     const searchHandler = debounce(async (e) => {
         console.log("Input:", e.target.value);
