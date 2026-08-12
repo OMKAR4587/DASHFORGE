@@ -1,4 +1,4 @@
-import { summaryCard } from "../components/dashboard/summaryCard.js";
+import { initMarketHeatmap, marketHeatmap } from "../components/dashboard/marketHeatmap.js";
 import { marketTable } from "../components/dashboard/marketTable.js";
 import { marketChart } from "../components/dashboard/marketChart.js";
 import { Stories } from "../components/dashboard/Stories.js";
@@ -12,7 +12,7 @@ export function dashboard() {
 
     page.append(
         marketChart(),
-        summaryCard(),
+        marketHeatmap(),
         marketTable(),
         Stories()
     );
@@ -25,5 +25,7 @@ export async function initDashboard() {
     await renderStockList();
 
     initCategoryTabs();
+
+   await initMarketHeatmap();
 
 }

@@ -7,6 +7,8 @@
 @import "./common/dropdown.css";
 @import "./common//watchlistModal.css";
 @import "./pages/auth.css";
+@import "./componet/marketTable.css";
+@import "./componet/marketHeatmap.css";
 
 
 * {
