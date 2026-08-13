@@ -1,15 +1,18 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
+import { getStockData } from "../../api/searchApi.js";
+import { navigate } from "../../router/router.js";
+
+
+/* =========================================================
+   D3
+========================================================= */
+
 const {
   hierarchy,
   treemap,
-  treemapSquarify,
-  select,
-  zoom,
-  zoomIdentity
+  treemapSquarify
 } = d3;
-import { getStockData } from "../../api/searchApi.js";
-import { navigate } from "../../router/router.js";
 
 
 /* =========================================================
@@ -32,7 +35,10 @@ const sectors = [
       "ADBE",
       "CSCO",
       "QCOM",
-      "TXN"
+      "TXN",
+      "IBM",
+      "NOW",
+      "INTU"
     ]
   },
 
@@ -45,7 +51,9 @@ const sectors = [
       "DIS",
       "TMUS",
       "VZ",
-      "T"
+      "T",
+      "CMCSA",
+      "CHTR"
     ]
   },
 
@@ -62,7 +70,10 @@ const sectors = [
       "SCHW",
       "AXP",
       "USB",
-      "MA"
+      "MA",
+      "V",
+      "COF",
+      "PNC"
     ]
   },
 
@@ -78,7 +89,9 @@ const sectors = [
       "TMO",
       "ABT",
       "DHR",
-      "AMGN"
+      "AMGN",
+      "BMY",
+      "GILD"
     ]
   },
 
@@ -92,7 +105,10 @@ const sectors = [
       "MCD",
       "LOW",
       "TJX",
-      "BKNG"
+      "BKNG",
+      "SBUX",
+      "GM",
+      "F"
     ]
   },
 
@@ -106,7 +122,9 @@ const sectors = [
       "PEP",
       "PM",
       "MO",
-      "CL"
+      "CL",
+      "MDLZ",
+      "KHC"
     ]
   },
 
@@ -120,7 +138,9 @@ const sectors = [
       "EOG",
       "OXY",
       "MPC",
-      "PSX"
+      "PSX",
+      "VLO",
+      "HAL"
     ]
   },
 
@@ -134,7 +154,9 @@ const sectors = [
       "UNP",
       "DE",
       "BA",
-      "LMT"
+      "LMT",
+      "UPS",
+      "MMM"
     ]
   },
 
@@ -146,7 +168,9 @@ const sectors = [
       "SO",
       "CEG",
       "AEP",
-      "SRE"
+      "SRE",
+      "D",
+      "EXC"
     ]
   },
 
@@ -158,7 +182,9 @@ const sectors = [
       "EQIX",
       "PSA",
       "SPG",
-      "O"
+      "O",
+      "WELL",
+      "DLR"
     ]
   },
 
@@ -170,7 +196,9 @@ const sectors = [
       "SHW",
       "FCX",
       "NEM",
-      "NUE"
+      "NUE",
+      "DD",
+      "DOW"
     ]
   }
 
@@ -178,140 +206,31 @@ const sectors = [
 
 
 /* =========================================================
-   COMPANY LOGOS
+   MODULE STATE
 ========================================================= */
 
-const companyDomains = {
+let activeSectorName = null;
 
-  NVDA: "nvidia.com",
-  AAPL: "apple.com",
-  MSFT: "microsoft.com",
-  AVGO: "broadcom.com",
-  ORCL: "oracle.com",
-  AMD: "amd.com",
-  INTC: "intel.com",
-  CRM: "salesforce.com",
-  ADBE: "adobe.com",
-  CSCO: "cisco.com",
-  QCOM: "qualcomm.com",
-  TXN: "ti.com",
+let currentMarketData = null;
 
-  GOOGL: "google.com",
-  META: "meta.com",
-  NFLX: "netflix.com",
-  DIS: "disney.com",
-  TMUS: "t-mobile.com",
-  VZ: "verizon.com",
-  T: "att.com",
+let resizeObserver = null;
 
-  JPM: "jpmorganchase.com",
-  BAC: "bankofamerica.com",
-  WFC: "wellsfargo.com",
-  GS: "goldmansachs.com",
-  MS: "morganstanley.com",
-  C: "citi.com",
-  BLK: "blackrock.com",
-  SCHW: "schwab.com",
-  AXP: "americanexpress.com",
-  USB: "usbank.com",
-  MA: "mastercard.com",
+let resizeTimer = null;
 
-  LLY: "lilly.com",
-  JNJ: "jnj.com",
-  ABBV: "abbvie.com",
-  MRK: "merck.com",
-  UNH: "unitedhealthgroup.com",
-  PFE: "pfizer.com",
-  TMO: "thermofisher.com",
-  ABT: "abbott.com",
-  DHR: "danaher.com",
-  AMGN: "amgen.com",
-
-  AMZN: "amazon.com",
-  TSLA: "tesla.com",
-  HD: "homedepot.com",
-  NKE: "nike.com",
-  MCD: "mcdonalds.com",
-  LOW: "lowes.com",
-  TJX: "tjx.com",
-  BKNG: "bookingholdings.com",
-
-  WMT: "walmart.com",
-  COST: "costco.com",
-  PG: "pg.com",
-  KO: "coca-cola.com",
-  PEP: "pepsico.com",
-  PM: "pmi.com",
-  MO: "altria.com",
-  CL: "colgatepalmolive.com",
-
-  XOM: "exxonmobil.com",
-  CVX: "chevron.com",
-  COP: "conocophillips.com",
-  SLB: "slb.com",
-  EOG: "eogresources.com",
-  OXY: "oxy.com",
-  MPC: "marathonpetroleum.com",
-  PSX: "phillips66.com",
-
-  CAT: "cat.com",
-  GE: "ge.com",
-  RTX: "rtx.com",
-  HON: "honeywell.com",
-  UNP: "up.com",
-  DE: "deere.com",
-  BA: "boeing.com",
-  LMT: "lockheedmartin.com",
-
-  NEE: "nexteraenergy.com",
-  DUK: "duke-energy.com",
-  SO: "southerncompany.com",
-  CEG: "constellationenergy.com",
-  AEP: "aep.com",
-  SRE: "sempra.com",
-
-  PLD: "prologis.com",
-  AMT: "americantower.com",
-  EQIX: "equinix.com",
-  PSA: "publicstorage.com",
-  SPG: "simon.com",
-  O: "realtyincome.com",
-
-  LIN: "linde.com",
-  APD: "airproducts.com",
-  SHW: "sherwin-williams.com",
-  FCX: "fcx.com",
-  NEM: "newmont.com",
-  NUE: "nucor.com"
-
-};
-
-
-function getLogo(symbol) {
-  // const domain = companyDomains[symbol];
-  console.log(symbol)
-
-  if (!symbol) {
-    return null;
-  }
-
-  return `https://financialmodelingprep.com/image-stock/${symbol}.png`;
-}
+let currentZoom = 1;
 
 
 /* =========================================================
-   HELPERS
+   BASIC HELPERS
 ========================================================= */
 
 function number(value) {
 
-  const parsed =
-    Number(value);
+  const parsed = Number(value);
 
   return Number.isFinite(parsed)
     ? parsed
     : 0;
-
 }
 
 
@@ -326,7 +245,22 @@ function getRaw(value) {
   }
 
   return number(value);
+}
 
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+function getLogo(symbol) {
+
+  if (!symbol) {
+    return null;
+  }
+
+  return `
+        https://financialmodelingprep.com/image-stock/${symbol}.png
+    `;
 }
 
 
@@ -336,43 +270,45 @@ function getRaw(value) {
 
 function getMarketCap(data) {
 
-  return getRaw(
-    data?.defaultKeyStatistics?.marketCap
-  )
-    ||
+  return (
+    getRaw(
+      data?.defaultKeyStatistics?.marketCap
+    ) ||
+
     getRaw(
       data?.summaryDetail?.marketCap
-    )
-    ||
+    ) ||
+
     getRaw(
       data?.financialData?.marketCap
-    )
-    ||
+    ) ||
+
     getRaw(
       data?.marketCap
-    );
-
+    )
+  );
 }
 
 
 /* =========================================================
-   CURRENT PRICE
+   PRICE
 ========================================================= */
 
 function getPrice(data) {
 
-  return getRaw(
-    data?.financialData?.currentPrice
-  )
-    ||
+  return (
+    getRaw(
+      data?.financialData?.currentPrice
+    ) ||
+
     getRaw(
       data?.summaryDetail?.regularMarketPrice
-    )
-    ||
+    ) ||
+
     getRaw(
       data?.summaryDetail?.previousClose
-    );
-
+    )
+  );
 }
 
 
@@ -381,10 +317,6 @@ function getPrice(data) {
 ========================================================= */
 
 function getChange(data) {
-
-  /*
-   * If API gives percentage directly.
-   */
 
   const directChange =
     data?.percent_change ??
@@ -395,20 +327,8 @@ function getChange(data) {
     directChange !== undefined &&
     directChange !== null
   ) {
-
-    return number(
-      directChange
-    );
-
+    return number(directChange);
   }
-
-
-  /*
-   * Otherwise calculate from:
-   *
-   * current price
-   * previous close
-   */
 
   const current =
     getPrice(data);
@@ -418,22 +338,19 @@ function getChange(data) {
       data?.summaryDetail?.previousClose
     );
 
-
   if (
     current &&
     previous
   ) {
-
     return (
-      (current - previous) /
-      previous
-    ) * 100;
-
+      (
+        (current - previous) /
+        previous
+      ) * 100
+    );
   }
 
-
   return 0;
-
 }
 
 
@@ -453,12 +370,9 @@ function getCompanyName(
     data?.name ||
     symbol
   );
-
 }
-
-
 /* =========================================================
-   FETCH STOCK
+   FETCH SINGLE STOCK
 ========================================================= */
 
 async function fetchStock(
@@ -469,22 +383,7 @@ async function fetchStock(
   try {
 
     const response =
-      await getStockData(
-        symbol
-      );
-
-
-    /*
-     * Your API returns:
-     *
-     * {
-     *   assetProfile,
-     *   recommendationTrend,
-     *   summaryDetail,
-     *   defaultKeyStatistics,
-     *   financialData
-     * }
-     */
+      await getStockData(symbol);
 
     const data =
       response?.data ||
@@ -492,24 +391,21 @@ async function fetchStock(
       response ||
       {};
 
-
     const marketCap =
       getMarketCap(data);
 
-
     /*
-     * Don't show invalid
-     * zero-sized stocks.
+     * Ignore stocks where
+     * market cap is unavailable.
      */
 
     if (!marketCap) {
 
       console.warn(
-        `No market cap: ${symbol}`
+        `No market cap available for ${symbol}`
       );
 
       return null;
-
     }
 
 
@@ -541,14 +437,12 @@ async function fetchStock(
   } catch (error) {
 
     console.error(
-      `Heatmap API failed: ${symbol}`,
+      `Failed to fetch ${symbol}:`,
       error
     );
 
     return null;
-
   }
-
 }
 
 
@@ -566,6 +460,7 @@ async function getHeatmapData() {
 
           const stocks =
             await Promise.all(
+
               sector.symbols.map(
                 symbol =>
                   fetchStock(
@@ -573,8 +468,8 @@ async function getHeatmapData() {
                     sector.name
                   )
               )
-            );
 
+            );
 
           return {
 
@@ -587,7 +482,6 @@ async function getHeatmapData() {
               )
 
           };
-
         }
       )
 
@@ -601,11 +495,66 @@ async function getHeatmapData() {
     children:
       sectorResults.filter(
         sector =>
-          sector.children.length
+          sector.children.length > 0
       )
 
   };
+}
 
+
+/* =========================================================
+   FORMAT MARKET CAP
+========================================================= */
+
+function formatMarketCap(value) {
+
+  if (!value) {
+    return "N/A";
+  }
+
+  if (value >= 1e12) {
+
+    return `$${(
+      value / 1e12
+    ).toFixed(2)}T`;
+  }
+
+  if (value >= 1e9) {
+
+    return `$${(
+      value / 1e9
+    ).toFixed(2)}B`;
+  }
+
+  if (value >= 1e6) {
+
+    return `$${(
+      value / 1e6
+    ).toFixed(2)}M`;
+  }
+
+  return `$${value.toFixed(0)}`;
+}
+
+
+/* =========================================================
+   FORMAT CHANGE
+========================================================= */
+
+function formatChange(change) {
+
+  const value =
+    Number(change);
+
+  if (!Number.isFinite(value)) {
+    return "0.00%";
+  }
+
+  return (
+    value >= 0
+      ? `+${value.toFixed(2)}%`
+      : `${value.toFixed(2)}%`
+  );
 }
 
 
@@ -613,154 +562,81 @@ async function getHeatmapData() {
    COLOR SCALE
 ========================================================= */
 
-function getHeatmapColor(
-  change
-) {
-
-  /*
-   * Clamp between -5% and +5%.
-   */
+function getHeatmapColor(change) {
 
   const value =
     Math.max(
       -5,
       Math.min(
         5,
-        change
+        number(change)
       )
     );
 
-
-  /*
-   * Neutral
-   */
-
   if (value === 0) {
 
-    return "hsl(220 8% 46%)";
-
+    return "hsl(220 10% 43%)";
   }
 
 
-  /*
-   * RED
-   */
-
-  if (value < 0) {
-
-    const intensity =
-      Math.abs(value) / 5;
+  const intensity =
+    Math.abs(value) / 5;
 
 
-    const saturation =
-      58 + intensity * 25;
+  const saturation =
+    55 + intensity * 30;
 
 
-    const lightness =
-      50 - intensity * 18;
+  const lightness =
+    48 - intensity * 18;
 
+
+  if (value > 0) {
 
     return `
             hsl(
-                2
+                145
                 ${saturation}%
                 ${lightness}%
             )
         `;
-
   }
-
-
-  /*
-   * GREEN
-   */
-
-  const intensity =
-    value / 5;
-
-
-  const saturation =
-    55 + intensity * 28;
-
-
-  const lightness =
-    50 - intensity * 18;
 
 
   return `
         hsl(
-            145
+            2
             ${saturation}%
             ${lightness}%
         )
     `;
-
 }
 
 
 /* =========================================================
-   MARKET CAP FORMAT
+   TILE SIZE CLASS
 ========================================================= */
 
-function formatMarketCap(
-  value
+function getTileClass(
+  width,
+  height
 ) {
 
-  if (!value) {
-    return "N/A";
+  if (
+    width < 58 ||
+    height < 44
+  ) {
+    return "heatmap-tiny";
   }
 
-
-  if (value >= 1e12) {
-
-    return `$${(
-      value / 1e12
-    ).toFixed(2)}T`;
-
+  if (
+    width < 105 ||
+    height < 70
+  ) {
+    return "heatmap-compact";
   }
 
-
-  if (value >= 1e9) {
-
-    return `$${(
-      value / 1e9
-    ).toFixed(2)}B`;
-
-  }
-
-
-  if (value >= 1e6) {
-
-    return `$${(
-      value / 1e6
-    ).toFixed(2)}M`;
-
-  }
-
-
-  return `$${value.toFixed(0)}`;
-
-}
-
-
-/* =========================================================
-   CHANGE FORMAT
-========================================================= */
-
-function formatChange(
-  change
-) {
-
-  if (!Number.isFinite(change)) {
-    return "0.00%";
-  }
-
-
-  return `
-        ${change >= 0 ? "+" : ""}
-        ${change.toFixed(2)}%
-    `;
-
+  return "heatmap-normal";
 }
 
 
@@ -796,29 +672,24 @@ function createTreemap(
     ])
 
     .tile(
-      treemapSquarify.ratio(
-        1.15
-      )
+      treemapSquarify.ratio(1.15)
     )
 
-    .paddingOuter(4)
+    .paddingOuter(0)
 
-    .paddingInner(3)
+    .paddingInner(2)
 
     .paddingTop(
       node =>
         node.depth === 1
           ? 28
-          : 3
+          : 2
     )
 
     .round(true)
 
     (root);
-
 }
-
-
 /* =========================================================
    TOOLTIP
 ========================================================= */
@@ -830,33 +701,118 @@ function createTooltip() {
       ".heatmap-tooltip"
     );
 
-
   if (tooltip) {
     return tooltip;
   }
 
 
   tooltip =
-    document.createElement(
-      "div"
-    );
-
+    document.createElement("div");
 
   tooltip.className =
     "heatmap-tooltip";
-
 
   document.body.appendChild(
     tooltip
   );
 
-
   return tooltip;
-
 }
 
 
-function showTooltip(event, stock) {
+/* =========================================================
+   HIDE TOOLTIP
+========================================================= */
+
+function hideTooltip() {
+
+  const tooltip =
+    document.querySelector(
+      ".heatmap-tooltip"
+    );
+
+  if (tooltip) {
+
+    tooltip.classList.remove(
+      "show"
+    );
+  }
+}
+
+
+/* =========================================================
+   MOVE TOOLTIP
+========================================================= */
+
+function moveTooltip(event) {
+
+  const tooltip =
+    document.querySelector(
+      ".heatmap-tooltip"
+    );
+
+  if (!tooltip) {
+    return;
+  }
+
+
+  const gap = 16;
+
+
+  let left =
+    event.clientX + gap;
+
+
+  let top =
+    event.clientY + gap;
+
+
+  const rect =
+    tooltip.getBoundingClientRect();
+
+
+  if (
+    left + rect.width >
+    window.innerWidth
+  ) {
+
+    left =
+      event.clientX -
+      rect.width -
+      gap;
+  }
+
+
+  if (
+    top + rect.height >
+    window.innerHeight
+  ) {
+
+    top =
+      event.clientY -
+      rect.height -
+      gap;
+  }
+
+
+  tooltip.style.left =
+    `${Math.max(8, left)}px`;
+
+
+  tooltip.style.top =
+    `${Math.max(8, top)}px`;
+}
+
+
+/* =========================================================
+   SHOW TOOLTIP
+========================================================= */
+
+function showTooltip(
+  event,
+  stock
+) {
+
   const tooltip =
     createTooltip();
 
@@ -891,12 +847,11 @@ function showTooltip(event, stock) {
 
             </div>
 
-
             <button
                 class="heatmap-tooltip-open"
                 type="button"
             >
-                Click to View
+                View Stock
             </button>
 
         </div>
@@ -911,7 +866,7 @@ function showTooltip(event, stock) {
                 </span>
 
                 <strong>
-                    $${stock.price.toFixed(2)}
+                    $${number(stock.price).toFixed(2)}
                 </strong>
 
             </div>
@@ -952,7 +907,6 @@ function showTooltip(event, stock) {
             </div>
 
         </div>
-
     `;
 
 
@@ -969,7 +923,6 @@ function showTooltip(event, stock) {
         navigate(
           `/stock/${stock.symbol}`
         );
-
       }
     );
 
@@ -979,566 +932,7 @@ function showTooltip(event, stock) {
   );
 
 
-  moveTooltip(
-    event
-  );
-
-}
-
-
-function moveTooltip(event) {
-
-  const tooltip =
-    document.querySelector(
-      ".heatmap-tooltip"
-    );
-
-
-  if (!tooltip) {
-    return;
-  }
-
-
-  const gap =
-    16;
-
-
-  let left =
-    event.clientX + gap;
-
-
-  let top =
-    event.clientY + gap;
-
-
-  const rect =
-    tooltip.getBoundingClientRect();
-
-
-  if (
-    left + rect.width >
-    window.innerWidth
-  ) {
-
-    left =
-      event.clientX -
-      rect.width -
-      gap;
-
-  }
-
-
-  if (
-    top + rect.height >
-    window.innerHeight
-  ) {
-
-    top =
-      event.clientY -
-      rect.height -
-      gap;
-
-  }
-
-
-  tooltip.style.left =
-    `${left}px`;
-
-
-  tooltip.style.top =
-    `${top}px`;
-
-}
-
-
-function hideTooltip() {
-
-  const tooltip =
-    document.querySelector(
-      ".heatmap-tooltip"
-    );
-
-
-  if (tooltip) {
-
-    tooltip.classList.remove(
-      "show"
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   TILE CONTENT
-========================================================= */
-
-function getTileClass(
-  width,
-  height
-) {
-
-  if (
-    width < 55 ||
-    height < 42
-  ) {
-
-    return "heatmap-tiny";
-
-  }
-
-
-  if (
-    width < 100 ||
-    height < 65
-  ) {
-
-    return "heatmap-compact";
-
-  }
-
-
-  return "heatmap-normal";
-
-}
-
-
-/* =========================================================
-   RENDER
-========================================================= */
-
-function renderHeatmap(
-  container,
-  marketData
-) {
-
-  const width =
-    container.clientWidth;
-
-
-  if (!width) {
-
-    return;
-
-  }
-
-
-  const height =
-    Math.max(
-      460,
-      Math.min(
-        width * 0.58,
-        680
-      )
-    );
-
-
-  container.innerHTML = "";
-
-
-  /*
-   * Zoom viewport
-   */
-
-  const viewport =
-    document.createElement(
-      "div"
-    );
-
-
-  viewport.className =
-    "heatmap-zoom-viewport";
-
-
-  viewport.style.height =
-    `${height}px`;
-
-
-  /*
-   * Zoom content
-   */
-
-  const content =
-    document.createElement(
-      "div"
-    );
-
-
-  content.className =
-    "heatmap-zoom-content";
-
-
-  content.style.width =
-    `${width}px`;
-
-
-  content.style.height =
-    `${height}px`;
-
-
-  viewport.appendChild(
-    content
-  );
-
-
-  container.appendChild(
-    viewport
-  );
-
-
-  /*
-   * D3 treemap
-   */
-
-  const nodes =
-    createTreemap(
-      marketData,
-      width,
-      height
-    );
-
-
-  /*
-   * SECTOR BLOCKS
-   */
-
-  nodes
-    .descendants()
-    .filter(
-      node =>
-        node.depth === 1
-    )
-    .forEach(
-      node => {
-
-        const sector =
-          document.createElement(
-            "div"
-          );
-
-
-        sector.className =
-          "heatmap-sector";
-
-
-        sector.style.left =
-          `${node.x0}px`;
-
-
-        sector.style.top =
-          `${node.y0}px`;
-
-
-        sector.style.width =
-          `${Math.max(
-            0,
-            node.x1 -
-            node.x0
-          )}px`;
-
-
-        sector.style.height =
-          `${Math.max(
-            0,
-            node.y1 -
-            node.y0
-          )}px`;
-
-
-        sector.innerHTML = `
-
-                    <span>
-                        ${node.data.name}
-                    </span>
-
-                    <small>
-                        ${node.leaves().length
-          }
-                        stocks
-                    </small>
-
-                `;
-
-
-        content.appendChild(
-          sector
-        );
-
-      }
-    );
-
-
-  /*
-   * STOCK TILES
-   */
-
-  nodes
-    .leaves()
-    .forEach(
-      node => {
-
-        const stock =
-          node.data;
-
-
-        const width =
-          node.x1 -
-          node.x0;
-
-
-        const height =
-          node.y1 -
-          node.y0;
-
-
-        const tile =
-          document.createElement(
-            "button"
-          );
-
-
-        tile.type =
-          "button";
-
-
-        tile.className =
-          `
-                    heatmap-stock
-                    ${getTileClass(
-            width,
-            height
-          )}
-                    `;
-
-
-        tile.style.left =
-          `${node.x0}px`;
-
-
-        tile.style.top =
-          `${node.y0}px`;
-
-
-        tile.style.width =
-          `${Math.max(
-            0,
-            width
-          )}px`;
-
-
-        tile.style.height =
-          `${Math.max(
-            0,
-            height
-          )}px`;
-
-
-        tile.style.background =
-          getHeatmapColor(
-            stock.change
-          );
-
-
-        tile.dataset.symbol =
-          stock.symbol;
-
-
-        /*
-         * LOGO
-         */
-
-        const logoHTML =
-          stock.logo
-            ? `
-                            <div
-                                class="heatmap-logo"
-                            >
-
-                                <img
-                                    src="${stock.logo}"
-                                    alt="${stock.symbol}"
-                                    loading="lazy"
-                                >
-
-                            </div>
-                        `
-            : `
-                            <div
-                                class="heatmap-logo heatmap-logo-empty"
-                            ></div>
-                        `;
-
-
-        tile.innerHTML = `
-
-                    ${logoHTML}
-
-
-                    <div
-                        class="heatmap-symbol"
-                    >
-                        ${stock.symbol}
-                    </div>
-
-
-                    <div
-                        class="heatmap-change"
-                    >
-                        ${formatChange(
-          stock.change
-        )}
-                    </div>
-
-                `;
-
-
-        /*
-         * HOVER
-         */
-
-        tile.addEventListener(
-          "mouseenter",
-          event => {
-
-            tile.classList.add(
-              "is-hovered"
-            );
-
-
-            showTooltip(
-              event,
-              stock
-            );
-
-
-            updateInfoBar(
-              stock
-            );
-
-          }
-        );
-
-
-        tile.addEventListener(
-          "mousemove",
-          event => {
-
-            moveTooltip(
-              event
-            );
-
-          }
-        );
-
-
-        tile.addEventListener(
-          "mouseleave",
-          () => {
-
-            tile.classList.remove(
-              "is-hovered"
-            );
-
-
-            hideTooltip();
-
-          }
-        );
-
-
-        /*
-         * CLICK
-         */
-
-        tile.addEventListener(
-          "click",
-          () => {
-
-            hideTooltip();
-
-
-            navigate(
-              `/stock/${stock.symbol}`
-            );
-
-          }
-        );
-
-
-        content.appendChild(
-          tile
-        );
-
-      }
-    );
-
-
-  /*
-   * ZOOM
-   */
-
-  const zoomBehaviour =
-    zoom()
-      .scaleExtent([
-        1,
-        4
-      ])
-
-      .on(
-        "zoom",
-        event => {
-
-          content.style.transform =
-            `
-                        translate(
-                            ${event.transform.x}px,
-                            ${event.transform.y}px
-                        )
-                        scale(
-                            ${event.transform.k}
-                        )
-                        `;
-
-        }
-      );
-
-
-  const viewportSelection = select(viewport);
-
-  viewportSelection.call(zoomBehaviour);
-
-  container._heatmapZoom = zoomBehaviour;
-  container._heatmapViewport = viewport;
-  container._heatmapZoomTarget = viewportSelection;
-
-
-  /*
-   * Store zoom controls
-   */
-
-  container._heatmapZoom =
-    zoomBehaviour;
-
-
-  container._heatmapViewport =
-    viewport;
-
-
-  container._heatmapZoomTarget =
-    select(viewport);
-
-
-  /*
-   * Default transform
-   */
-
-  select(viewport)
-    .call(
-      zoomBehaviour.transform,
-      zoomIdentity
-    );
-
+  moveTooltip(event);
 }
 
 
@@ -1546,15 +940,12 @@ function renderHeatmap(
    INFO BAR
 ========================================================= */
 
-function updateInfoBar(
-  stock
-) {
+function updateInfoBar(stock) {
 
   const bar =
     document.querySelector(
       ".heatmap-stock-info"
     );
-
 
   if (!bar) {
     return;
@@ -1563,9 +954,7 @@ function updateInfoBar(
 
   bar.innerHTML = `
 
-        <div
-            class="heatmap-info-company"
-        >
+        <div class="heatmap-info-company">
 
             ${stock.logo
       ? `
@@ -1576,7 +965,6 @@ function updateInfoBar(
                     `
       : ""
     }
-
 
             <div>
 
@@ -1593,24 +981,22 @@ function updateInfoBar(
         </div>
 
 
-        <div
-            class="heatmap-info-metric"
-        >
+        <div class="heatmap-info-metric">
 
             <span>
                 Price
             </span>
 
             <strong>
-                $${stock.price.toFixed(2)}
+                $${number(
+      stock.price
+    ).toFixed(2)}
             </strong>
 
         </div>
 
 
-        <div
-            class="heatmap-info-metric"
-        >
+        <div class="heatmap-info-metric">
 
             <span>
                 Market Cap
@@ -1625,9 +1011,7 @@ function updateInfoBar(
         </div>
 
 
-        <div
-            class="heatmap-info-metric"
-        >
+        <div class="heatmap-info-metric">
 
             <span>
                 Change
@@ -1654,7 +1038,6 @@ function updateInfoBar(
             View ${stock.symbol}
             →
         </button>
-
     `;
 
 
@@ -1669,7 +1052,6 @@ function updateInfoBar(
         navigate(
           `/stock/${stock.symbol}`
         );
-
       }
     );
 
@@ -1677,261 +1059,783 @@ function updateInfoBar(
   bar.classList.add(
     "visible"
   );
+}
 
+export function marketHeatmap() {
+  const section = document.createElement("section");
+
+  section.className = "stock-heatmap-card";
+
+  section.innerHTML = `
+    <div class="stock-heatmap-header">
+
+      <div class="heatmap-title">
+        <span class="heatmap-eyebrow">
+          MARKET OVERVIEW
+        </span>
+
+        <h2>
+          Stock Heatmap
+        </h2>
+
+        <p>
+          Market performance weighted by company size
+        </p>
+      </div>
+
+      <div class="heatmap-header-right">
+
+        <div class="heatmap-controls">
+
+          <button
+            class="heatmap-control active"
+            data-range="1D"
+            type="button"
+          >
+            1D
+          </button>
+
+          <button
+            class="heatmap-control"
+            data-range="1W"
+            type="button"
+          >
+            1W
+          </button>
+
+          <button
+            class="heatmap-control"
+            data-range="1M"
+            type="button"
+          >
+            1M
+          </button>
+
+        </div>
+
+        <div class="heatmap-zoom-controls">
+
+          <button
+            class="heatmap-zoom-btn"
+            data-zoom="out"
+            type="button"
+            title="Zoom out"
+          >
+            −
+          </button>
+
+          <button
+            class="heatmap-zoom-btn"
+            data-zoom="reset"
+            type="button"
+            title="Reset zoom"
+          >
+            Reset
+          </button>
+
+          <button
+            class="heatmap-zoom-btn"
+            data-zoom="in"
+            type="button"
+            title="Zoom in"
+          >
+            +
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="heatmap-container">
+
+      <div class="heatmap-loading">
+        Loading market data...
+      </div>
+
+    </div>
+
+    <div class="heatmap-footer">
+
+      <div class="heatmap-legend">
+
+        <span>−5%</span>
+
+        <i class="legend negative-strong"></i>
+        <i class="legend negative"></i>
+        <i class="legend negative-light"></i>
+
+        <span>0%</span>
+
+        <i class="legend positive-light"></i>
+        <i class="legend positive"></i>
+        <i class="legend positive-strong"></i>
+
+        <span>+5%</span>
+
+      </div>
+
+      <span class="heatmap-hint">
+        Hover a stock for details · Click to open
+      </span>
+
+    </div>
+  `;
+
+  /*
+   * RANGE BUTTONS
+   */
+
+  section
+    .querySelectorAll(".heatmap-control")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        section
+          .querySelectorAll(".heatmap-control")
+          .forEach(item => {
+            item.classList.remove("active");
+          });
+
+        button.classList.add("active");
+
+      });
+
+    });
+
+  return section;
+}
+
+/* =========================================================
+   GET CURRENT DATA TO RENDER
+========================================================= */
+
+function getVisibleMarketData(
+  marketData
+) {
+
+  if (!activeSectorName) {
+
+    return marketData;
+  }
+
+
+  const selectedSector =
+    marketData.children.find(
+      sector =>
+        sector.name ===
+        activeSectorName
+    );
+
+
+  if (!selectedSector) {
+
+    activeSectorName =
+      null;
+
+    return marketData;
+  }
+
+
+  return {
+
+    name:
+      selectedSector.name,
+
+    children: [
+
+      {
+        name:
+          selectedSector.name,
+
+        children:
+          selectedSector.children
+      }
+
+    ]
+
+  };
 }
 
 
 /* =========================================================
-   COMPONENT
+   CREATE BACK BUTTON
 ========================================================= */
 
-export function marketHeatmap() {
+function createBackButton(
+  container,
+  marketData
+) {
 
-  const section =
+  if (!activeSectorName) {
+    return;
+  }
+
+
+  const button =
     document.createElement(
-      "section"
+      "button"
     );
 
 
-  section.className =
-    "stock-heatmap-card";
+  button.type =
+    "button";
 
 
-  section.innerHTML = `
+  button.className =
+    "heatmap-back-button";
 
-        <div
-            class="stock-heatmap-header"
+
+  button.innerHTML = `
+        ← All Sectors
+    `;
+
+
+  button.addEventListener(
+    "click",
+    event => {
+
+      event.stopPropagation();
+
+      activeSectorName =
+        null;
+
+      currentZoom =
+        1;
+
+      renderHeatmap(
+        container,
+        marketData
+      );
+
+    }
+  );
+
+
+  container.appendChild(
+    button
+  );
+}
+
+
+/* =========================================================
+   CREATE SECTOR BLOCK
+========================================================= */
+
+function createSectorBlock(
+  node,
+  content,
+  container,
+  marketData
+) {
+
+  const sector =
+    document.createElement(
+      "div"
+    );
+
+
+  sector.className =
+    "heatmap-sector";
+
+
+  sector.style.left =
+    `${node.x0}px`;
+
+
+  sector.style.top =
+    `${node.y0}px`;
+
+
+  sector.style.width =
+    `${Math.max(
+      0,
+      node.x1 - node.x0
+    )}px`;
+
+
+  sector.style.height =
+    `${Math.max(
+      0,
+      node.y1 - node.y0
+    )}px`;
+
+
+  sector.innerHTML = `
+
+        <button
+            type="button"
+            class="heatmap-sector-title"
         >
-
-            <div
-                class="heatmap-title"
-            >
-
-                <div>
-
-                    <span
-                        class="heatmap-eyebrow"
-                    >
-                        MARKET OVERVIEW
-                    </span>
-
-
-                    <h2>
-                        Stock Heatmap
-                    </h2>
-
-
-                    <p>
-                        Market performance weighted by
-                        company size
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="heatmap-header-right"
-            >
-
-                <div
-                    class="heatmap-controls"
-                >
-
-                    <button
-                        class="heatmap-control active"
-                        data-range="1D"
-                        type="button"
-                    >
-                        1D
-                    </button>
-
-                    <button
-                        class="heatmap-control"
-                        data-range="1W"
-                        type="button"
-                    >
-                        1W
-                    </button>
-
-                    <button
-                        class="heatmap-control"
-                        data-range="1M"
-                        type="button"
-                    >
-                        1M
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="heatmap-zoom-controls"
-                >
-
-                    <button
-                        class="heatmap-zoom-btn"
-                        data-zoom="out"
-                        type="button"
-                        title="Zoom out"
-                    >
-                        −
-                    </button>
-
-
-                    <button
-                        class="heatmap-zoom-btn"
-                        data-zoom="reset"
-                        type="button"
-                        title="Reset zoom"
-                    >
-                        Reset
-                    </button>
-
-
-                    <button
-                        class="heatmap-zoom-btn"
-                        data-zoom="in"
-                        type="button"
-                        title="Zoom in"
-                    >
-                        +
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="heatmap-container"
-        >
-
-            <div
-                class="heatmap-loading"
-            >
-                Loading market data...
-            </div>
-
-        </div>
-
-
-
-
-
-        <div
-            class="heatmap-footer"
-        >
-
-            <div
-                class="heatmap-legend"
-            >
-
-                <span>
-                    −5%
-                </span>
-
-
-                <i
-                    class="legend negative-strong"
-                ></i>
-
-
-                <i
-                    class="legend negative"
-                ></i>
-
-
-                <i
-                    class="legend negative-light"
-                ></i>
-
-
-                <span>
-                    0%
-                </span>
-
-
-                <i
-                    class="legend positive-light"
-                ></i>
-
-
-                <i
-                    class="legend positive"
-                ></i>
-
-
-                <i
-                    class="legend positive-strong"
-                ></i>
-
-
-                <span>
-                    +5%
-                </span>
-
-            </div>
-
 
             <span
-                class="heatmap-hint"
+                class="heatmap-section-title-info"
             >
-                Hover a stock for details · Click to open
+
+                <strong>
+                  <span
+                class="heatmap-sector-arrow"
+            >
+                →
+            </span>
+                    ${node.data.name}
+                </strong>
+
+              
+
             </span>
 
-        </div>
 
+        </button>
     `;
 
 
   /*
-   * Range controls
-   *
-   * Currently visual only.
-   * We can connect these to API
-   * historical periods later.
+   * Category click
    */
 
-  section
-    .querySelectorAll(
-      ".heatmap-control"
+  sector
+    .querySelector(
+      ".heatmap-sector-title"
     )
-    .forEach(
-      button => {
+    ?.addEventListener(
+      "click",
+      event => {
 
-        button.addEventListener(
-          "click",
-          () => {
+        event.stopPropagation();
 
-            section
-              .querySelectorAll(
-                ".heatmap-control"
-              )
-              .forEach(
-                item =>
-                  item.classList.remove(
-                    "active"
-                  )
-              );
+        activeSectorName =
+          node.data.name;
 
+        currentZoom =
+          1;
 
-            button.classList.add(
-              "active"
-            );
-
-          }
+        renderHeatmap(
+          container,
+          marketData
         );
 
       }
     );
 
 
-  return section;
+  content.appendChild(
+    sector
+  );
+}
 
+
+/* =========================================================
+   CREATE STOCK TILE
+========================================================= */
+
+function createStockTile(
+  node,
+  content
+) {
+
+  const stock =
+    node.data;
+
+
+  const width =
+    node.x1 - node.x0;
+
+
+  const height =
+    node.y1 - node.y0;
+
+
+  const tile =
+    document.createElement(
+      "button"
+    );
+
+
+  tile.type =
+    "button";
+
+
+  tile.className = `
+        heatmap-stock
+        ${getTileClass(
+    width,
+    height
+  )}
+    `;
+
+
+  tile.style.left =
+    `${node.x0}px`;
+
+
+  tile.style.top =
+    `${node.y0}px`;
+
+
+  tile.style.width =
+    `${Math.max(
+      0,
+      width
+    )}px`;
+
+
+  tile.style.height =
+    `${Math.max(
+      0,
+      height
+    )}px`;
+
+
+  tile.style.background =
+    getHeatmapColor(
+      stock.change
+    );
+
+
+  tile.dataset.symbol =
+    stock.symbol;
+
+
+  const logoHTML =
+    stock.logo
+      ? `
+                <div class="heatmap-logo">
+
+                    <img
+                        src="${stock.logo}"
+                        alt="${stock.symbol}"
+                        loading="lazy"
+                    >
+
+                </div>
+            `
+      : "";
+
+
+  tile.innerHTML = `
+
+        ${logoHTML}
+
+        <div class="heatmap-symbol">
+            ${stock.symbol}
+        </div>
+
+        <div class="heatmap-change">
+            ${formatChange(
+    stock.change
+  )}
+        </div>
+
+    `;
+
+
+  /*
+   * Hover
+   */
+
+  tile.addEventListener(
+    "mouseenter",
+    event => {
+
+      tile.classList.add(
+        "is-hovered"
+      );
+
+      showTooltip(
+        event,
+        stock
+      );
+
+      updateInfoBar(
+        stock
+      );
+    }
+  );
+
+
+  tile.addEventListener(
+    "mousemove",
+    moveTooltip
+  );
+
+
+  tile.addEventListener(
+    "mouseleave",
+    () => {
+
+      tile.classList.remove(
+        "is-hovered"
+      );
+
+      hideTooltip();
+    }
+  );
+
+
+  /*
+   * Stock click
+   */
+
+  tile.addEventListener(
+    "click",
+    () => {
+
+      hideTooltip();
+      navigate(
+        `/stock/${stock.symbol}`
+      );
+    }
+  );
+
+
+  content.appendChild(
+    tile
+  );
+}
+/* =========================================================
+   RENDER HEATMAP
+========================================================= */
+
+function renderHeatmap(
+  container,
+  marketData
+) {
+
+  if (!container) {
+    return;
+  }
+
+
+  const width =
+    container.clientWidth;
+
+
+  if (!width) {
+    return;
+  }
+
+
+  const height =
+    Math.max(
+      460,
+      Math.min(
+        width * 0.58,
+        680
+      )
+    );
+
+
+  container.innerHTML = "";
+
+
+  /*
+   * BACK BUTTON
+   */
+
+  createBackButton(
+    container,
+    marketData
+  );
+
+
+  /*
+   * Zoom viewport
+   */
+
+  const viewport =
+    document.createElement(
+      "div"
+    );
+
+
+  viewport.className =
+    "heatmap-zoom-viewport";
+
+
+  viewport.style.height =
+    `${height}px`;
+
+
+  /*
+   * Content
+   */
+
+  const content =
+    document.createElement(
+      "div"
+    );
+
+
+  content.className =
+    "heatmap-zoom-content";
+
+
+  content.style.width =
+    `${width}px`;
+
+
+  content.style.height =
+    `${height}px`;
+
+
+  content.style.transform =
+    `scale(${currentZoom})`;
+
+
+  content.style.transformOrigin =
+    "top left";
+
+
+  viewport.appendChild(
+    content
+  );
+
+
+  container.appendChild(
+    viewport
+  );
+
+
+  /*
+   * Select market / sector
+   */
+
+  const visibleData =
+    getVisibleMarketData(
+      marketData
+    );
+
+
+  /*
+   * Build treemap
+   */
+
+  const nodes =
+    createTreemap(
+      visibleData,
+      width,
+      height
+    );
+
+
+  /*
+   * Sector blocks
+   *
+   * Only show sector blocks
+   * on main market view.
+   */
+
+  if (!activeSectorName) {
+
+    nodes
+      .descendants()
+      .filter(
+        node =>
+          node.depth === 1
+      )
+      .forEach(
+        node => {
+
+          createSectorBlock(
+            node,
+            content,
+            container,
+            marketData
+          );
+
+        }
+      );
+  }
+
+
+  /*
+   * Stock tiles
+   */
+
+  nodes
+    .leaves()
+    .forEach(
+      node => {
+
+        createStockTile(
+          node,
+          content
+        );
+
+      }
+    );
+
+
+  /*
+   * Update zoom transform
+   */
+
+  applyZoom(
+    viewport,
+    content
+  );
+}
+
+
+/* =========================================================
+   APPLY ZOOM
+========================================================= */
+
+function applyZoom(
+  viewport,
+  content
+) {
+
+  const zoom =
+    Math.max(
+      1,
+      Math.min(
+        2.5,
+        currentZoom
+      )
+    );
+
+
+  currentZoom =
+    zoom;
+
+
+  content.style.transform =
+    `scale(${zoom})`;
+
+
+  content.style.transformOrigin =
+    "top left";
+
+
+  /*
+   * Important:
+   *
+   * No D3 zoom.
+   * No selection.call().
+   * No interrupt().
+   *
+   * Therefore:
+   *
+   * u.interrupt is not a function
+   *
+   * error cannot happen here.
+   */
+
+  if (zoom > 1) {
+
+    viewport.style.overflow =
+      "auto";
+
+  } else {
+
+    viewport.style.overflow =
+      "hidden";
+
+  }
 }
 
 
@@ -1940,59 +1844,133 @@ export function marketHeatmap() {
 ========================================================= */
 
 function setupZoomControls() {
-  const container =
-    document.querySelector(".heatmap-container");
 
-  if (!container) {
+  const section =
+    document.querySelector(
+      ".stock-heatmap-card"
+    );
+
+
+  if (!section) {
     return;
   }
 
-  const buttons =
-    container.querySelectorAll(".heatmap-zoom-btn");
 
-  buttons.forEach(button => {
-    button.addEventListener("click", () => {
-      const action = button.dataset.zoom;
-      const zoomBehaviour =
-        container._heatmapZoom;
+  const container =
+    section.querySelector(
+      ".heatmap-container"
+    );
 
-      const target =
-        container._heatmapZoomTarget;
 
-      if (!zoomBehaviour || !target) {
-        return;
-      }
+  const viewport =
+    container?.querySelector(
+      ".heatmap-zoom-viewport"
+    );
 
-      if (action === "in") {
-        target.call(
-          zoomBehaviour.scaleBy,
-          1.25
+
+  const content =
+    container?.querySelector(
+      ".heatmap-zoom-content"
+    );
+
+
+  if (
+    !container ||
+    !viewport ||
+    !content
+  ) {
+    return;
+  }
+
+
+  /*
+   * Avoid duplicate listeners.
+   */
+
+  if (
+    container.dataset.zoomReady ===
+    "true"
+  ) {
+    return;
+  }
+
+
+  container.dataset.zoomReady =
+    "true";
+
+
+  section
+    .querySelectorAll(
+      ".heatmap-zoom-btn"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+
+            const action =
+              button.dataset.zoom;
+
+
+            if (
+              action ===
+              "in"
+            ) {
+
+              currentZoom =
+                Math.min(
+                  2.5,
+                  currentZoom +
+                  0.25
+                );
+            }
+
+
+            if (
+              action ===
+              "out"
+            ) {
+
+              currentZoom =
+                Math.max(
+                  1,
+                  currentZoom -
+                  0.25
+                );
+            }
+
+
+            if (
+              action ===
+              "reset"
+            ) {
+
+              currentZoom =
+                1;
+            }
+
+
+            applyZoom(
+              viewport,
+              content
+            );
+
+          }
         );
-      }
 
-      if (action === "out") {
-        target.call(
-          zoomBehaviour.scaleBy,
-          1
-        );
       }
-
-      if (action === "reset") {
-        target.call(
-          zoomBehaviour.transform,
-          zoomIdentity
-        );
-      }
-    });
-  });
+    );
 }
 
+
 /* =========================================================
-   INIT
+   INITIALIZE
 ========================================================= */
-
-let heatmapResizeObserver = null;
-
 
 export async function initMarketHeatmap() {
 
@@ -2009,14 +1987,11 @@ export async function initMarketHeatmap() {
     );
 
     return;
-
   }
 
 
   try {
-    let heatmapResizeObserver = null;
-    let heatmapMarketData = null;
-    let heatmapRenderTimer = null;
+
     container.innerHTML = `
 
             <div
@@ -2028,15 +2003,20 @@ export async function initMarketHeatmap() {
         `;
 
 
-    heatmapMarketData =
+    /*
+     * Fetch once.
+     */
+
+    currentMarketData =
       await getHeatmapData();
 
-    const marketData =
-      heatmapMarketData;
 
+    /*
+     * Validate data.
+     */
 
     const stockCount =
-      marketData.children
+      currentMarketData.children
         .reduce(
           (
             total,
@@ -2053,46 +2033,77 @@ export async function initMarketHeatmap() {
       throw new Error(
         "No valid market data available"
       );
-
     }
 
 
+    /*
+     * Initial render
+     */
+
     renderHeatmap(
       container,
-      marketData
+      currentMarketData
     );
 
+
+    /*
+     * Zoom buttons
+     */
 
     setupZoomControls();
 
 
     /*
-     * Responsive redraw
+     * Responsive resize
      */
 
-    if (heatmapResizeObserver) {
-      heatmapResizeObserver.disconnect();
+    if (resizeObserver) {
+
+      resizeObserver.disconnect();
+
     }
 
-    heatmapResizeObserver =
-      new ResizeObserver(() => {
-        clearTimeout(heatmapRenderTimer);
 
-        heatmapRenderTimer =
-          setTimeout(() => {
-            if (heatmapMarketData) {
-              renderHeatmap(
-                container,
-                heatmapMarketData
-              );
+    resizeObserver =
+      new ResizeObserver(
+        () => {
 
-              setupZoomControls();
-            }
-          }, 150);
-      });
+          clearTimeout(
+            resizeTimer
+          );
 
 
-    heatmapResizeObserver.observe(
+          resizeTimer =
+            setTimeout(
+              () => {
+
+                if (
+                  currentMarketData
+                ) {
+
+                  renderHeatmap(
+                    container,
+                    currentMarketData
+                  );
+
+                  /*
+                   * New DOM was created,
+                   * so bind zoom controls again.
+                   */
+
+                  setupZoomControls();
+
+                }
+
+              },
+              150
+            );
+
+        }
+      );
+
+
+    resizeObserver.observe(
       container
     );
 
@@ -2100,7 +2111,7 @@ export async function initMarketHeatmap() {
   } catch (error) {
 
     console.error(
-      " Heatmap failed:",
+      "Heatmap failed:",
       error
     );
 
@@ -2122,7 +2133,5 @@ export async function initMarketHeatmap() {
             </div>
 
         `;
-
   }
-
 }
