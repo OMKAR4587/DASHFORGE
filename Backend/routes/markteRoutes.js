@@ -4,6 +4,7 @@ import { Quotes } from "../controllers/quotesController.js";
 import { searchStockController } from "../controllers/sarchStockController.js";
 import { profileController } from "../controllers/profileController.js";
 import { newsController } from "../controllers/newsController.js";
+import { getMarketController } from "../controllers/everythingNewsController.js";
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.get("/history", history);
 router.get("/search", searchStockController);
 router.get("/profile", profileController);
 router.get("/news", newsController);
+router.get("/market-news", getMarketController)
 
 export default router

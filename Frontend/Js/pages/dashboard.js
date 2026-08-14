@@ -4,17 +4,20 @@ import { marketChart } from "../components/dashboard/marketChart.js";
 import { Stories } from "../components/dashboard/Stories.js";
 import { initChart } from "../api/dashboardChart.js";
 import { renderStockList, initCategoryTabs } from "../components/small-features/stockList.js";
-export function dashboard() {
+
+export async function dashboard() {
 
     const page = document.createElement("section");
 
     page.className = "dashboard-page";
 
+    const stories = await Stories();
+
     page.append(
         marketChart(),
         marketHeatmap(),
         marketTable(),
-        Stories()
+        stories
     );
     return (page)
 }

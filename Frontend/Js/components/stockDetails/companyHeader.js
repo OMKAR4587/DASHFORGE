@@ -1,7 +1,7 @@
 import { syncWatchlistUI } from "../../controller/watchlistController.js";
 import { isInWatchlist, toggleWatchlist, updateWatchListButton } from "../../service/watchlistService.js";
-export function companyHeader(stock, quote) {
-
+export function companyHeader(quote) {
+    console.log("header stockpage",quote)
     const section = document.createElement("section")
     section.className = "stock-page-top-section"
 
@@ -21,15 +21,15 @@ export function companyHeader(stock, quote) {
      <div class="company-left">
 
             <img
-                src="https://financialmodelingprep.com/image-stock/${stock.symbol}.png"
+                src="https://financialmodelingprep.com/image-stock/${quote.symbol}.png"
                 class="company-logo"
             />
 
             <div>
 
-                <h1>${stock.name}</h1>
+                <h1>${quote.name}</h1>
 
-                <p>${stock.exchange}</p>
+                <p>${quote.exchange}</p>
 
             </div>
 
@@ -53,12 +53,12 @@ export function companyHeader(stock, quote) {
 
     const btn = watchlistDiv.querySelector("#watchlist-btn");
 
-    updateWatchListButton(btn, stock.symbol);
+    updateWatchListButton(btn, quote.symbol);
 
     btn.addEventListener("click", () => {
-        toggleWatchlist(stock);
-        updateWatchListButton(btn, stock.symbol);
-        syncWatchlistUI(stock.symbol);
+        toggleWatchlist(quote);
+        updateWatchListButton(btn, quote.symbol);
+        syncWatchlistUI(quote.symbol);
     })
 
     return section

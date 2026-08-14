@@ -43,3 +43,25 @@ export async function getNews(symbol){
     
     return newsData
 }
+
+export async function marketNews() {
+
+    const response = await fetch(
+        `${BASEURL}/market/market-news`
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            "Failed to fetch market news"
+        );
+    }
+
+    const data = await response.json();
+
+    console.log(
+        "MARKET NEWS DATA:",
+        data
+    );
+
+    return data;
+}

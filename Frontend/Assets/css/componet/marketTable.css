@@ -1,38 +1,50 @@
-/* =====================================================
+/* =========================================================
    MARKET TABLE
-===================================================== */
+   MARKET MONITOR DESIGN SYSTEM
+========================================================= */
 
 .market-table-card {
-
     width: 100%;
+    min-width: 0;
 
     background: var(--surface);
-
     border: 1px solid var(--border);
-
     border-radius: var(--card-radius);
 
     overflow: hidden;
 
     box-shadow: var(--shadow-sm);
+
+    transition:
+        box-shadow var(--transition-normal),
+        border-color var(--transition-normal),
+        transform var(--transition-normal);
+}
+
+.market-table-card:hover {
+    box-shadow: var(--shadow-md);
 }
 
 
-/* =========================
-   HEADER
-========================= */
+/* =========================================================
+   TABLE HEADER
+========================================================= */
 
 .market-table-header {
-
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 80px 70px;
+    grid-template-columns:
+        minmax(0, 1fr)
+        90px
+        80px;
 
     align-items: center;
 
-    height: 40px;
+    min-height: 42px;
 
-    padding: 0 var(--space-3);
+    padding:
+        0
+        var(--space-4);
 
     background: var(--bg-secondary);
 
@@ -42,7 +54,15 @@
 
     font-size: var(--fs-xs);
 
-    font-weight: var(--fw-medium);
+    font-weight: var(--fw-semibold);
+
+    letter-spacing: .02em;
+
+    text-transform: uppercase;
+}
+
+.market-table-header span {
+    white-space: nowrap;
 }
 
 .market-table-header span:nth-child(2),
@@ -51,15 +71,26 @@
 }
 
 
-/* =========================
+/* =========================================================
    SECTOR
-========================= */
+========================================================= */
 
 .market-sector-title {
+    display: flex;
+    align-items: center;
 
-    padding: var(--space-2) var(--space-3);
+    min-height: 34px;
 
-    background: var(--surface-hover);
+    padding:
+        0
+        var(--space-4);
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--surface-hover),
+            var(--surface)
+        );
 
     border-bottom: 1px solid var(--border);
 
@@ -70,70 +101,131 @@
     font-weight: var(--fw-bold);
 
     letter-spacing: .04em;
+
+    text-transform: uppercase;
 }
 
 
-/* =========================
+/* =========================================================
    STOCK ROW
-========================= */
+========================================================= */
 
 .market-stock-row {
+    position: relative;
 
     display: grid;
 
-    grid-template-columns: minmax(0, 1fr) 80px 70px;
+    grid-template-columns:
+        minmax(0, 1fr)
+        90px
+        80px;
 
     align-items: center;
 
-    min-height: 38px;
+    min-height: 48px;
 
-    padding: 0 var(--space-3);
+    padding:
+        0
+        var(--space-4);
+
+    background: var(--surface);
 
     border-bottom: 1px solid var(--border);
 
+    color: var(--text);
+
     cursor: pointer;
 
-    transition: background var(--transition-fast);
+    transition:
+        background var(--transition-fast),
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast);
 }
 
 .market-stock-row:last-child {
     border-bottom: none;
 }
 
-.market-stock-row:hover {
 
+/* =========================================================
+   ROW HOVER
+========================================================= */
+
+.market-stock-row:hover {
     background: var(--surface-hover);
 }
 
 
-/* =========================
+/*
+ * Small primary indicator on hover.
+ */
+
+.market-stock-row::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 7px;
+    bottom: 7px;
+
+    width: 3px;
+
+    background: var(--primary);
+
+    border-radius:
+        0
+        var(--radius-full)
+        var(--radius-full)
+        0;
+
+    opacity: 0;
+
+    transform: scaleY(.4);
+
+    transition:
+        opacity var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.market-stock-row:hover::before {
+    opacity: 1;
+
+    transform: scaleY(1);
+}
+
+
+/* =========================================================
    STOCK NAME
-========================= */
+========================================================= */
 
 .stock-name {
-
     min-width: 0;
 
     display: flex;
 
     align-items: center;
 
-    gap: var(--space-2);
+    gap: var(--space-3);
 }
 
+
+/* =========================================================
+   STOCK ICON
+========================================================= */
+
 .stock-icon {
+    width: 28px;
+    height: 28px;
 
-    width: 20px;
-    height: 20px;
-
-    flex: 0 0 20px;
+    flex: 0 0 28px;
 
     display: flex;
 
     align-items: center;
     justify-content: center;
 
-    border-radius: var(--radius-full);
+    border-radius: var(--radius-sm);
 
     background: var(--bg-secondary);
 
@@ -146,10 +238,29 @@
     font-weight: var(--fw-bold);
 
     overflow: hidden;
+
+    transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
 }
 
-.stock-label {
+.market-stock-row:hover .stock-icon {
+    background: var(--primary-light);
 
+    border-color: var(--primary);
+
+    color: var(--primary);
+
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   STOCK LABEL
+========================================================= */
+
+.stock-label {
     min-width: 0;
 
     overflow: hidden;
@@ -160,59 +271,162 @@
 
     color: var(--text);
 
-    font-size: var(--fs-xs);
+    font-size: var(--fs-sm);
 
-    font-weight: var(--fw-medium);
+    font-weight: var(--fw-semibold);
+
+    line-height: 1.2;
+
+    transition: color var(--transition-fast);
+}
+
+.market-stock-row:hover .stock-label {
+    color: var(--primary);
 }
 
 
-/* =========================
+/* =========================================================
    PRICE
-========================= */
+========================================================= */
 
 .stock-price {
-
     color: var(--text);
 
     font-family: var(--font-mono);
 
     font-size: var(--fs-xs);
 
-    text-align: right;
-
-    white-space: nowrap;
-}
-
-
-/* =========================
-   CHANGE
-========================= */
-
-.stock-change {
-
-    font-family: var(--font-mono);
-
-    font-size: var(--fs-xs);
-
     font-weight: var(--fw-medium);
 
     text-align: right;
 
     white-space: nowrap;
+
+    font-variant-numeric: tabular-nums;
 }
+
+
+/* =========================================================
+   CHANGE
+========================================================= */
+
+.stock-change {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: flex-end;
+
+    min-width: 0;
+
+    font-family: var(--font-mono);
+
+    font-size: var(--fs-xs);
+
+    font-weight: var(--fw-semibold);
+
+    text-align: right;
+
+    white-space: nowrap;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   POSITIVE
+========================================================= */
 
 .stock-change.positive {
     color: var(--success);
+
+    text-shadow:
+        0 0 12px
+        color-mix(
+            in srgb,
+            var(--success) 20%,
+            transparent
+        );
 }
+
+
+/* =========================================================
+   NEGATIVE
+========================================================= */
 
 .stock-change.negative {
     color: var(--danger);
+
+    text-shadow:
+        0 0 12px
+        color-mix(
+            in srgb,
+            var(--danger) 20%,
+            transparent
+        );
 }
 
 
-/* =====================================================
+/* =========================================================
+   OPTIONAL CHANGE PILL
+   If your HTML uses only text, this still remains harmless.
+========================================================= */
+
+.stock-change.positive::before,
+.stock-change.negative::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    margin-right: 6px;
+
+    border-radius: var(--radius-full);
+
+    background: currentColor;
+
+    opacity: .8;
+}
+
+
+/* =========================================================
+   DARK THEME
+========================================================= */
+
+[data-theme="dark"] .market-table-card {
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .market-table-header {
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .market-sector-title {
+    background:
+        linear-gradient(
+            90deg,
+            var(--surface-hover),
+            var(--surface)
+        );
+}
+
+[data-theme="dark"] .market-stock-row {
+    background: var(--surface);
+}
+
+[data-theme="dark"] .market-stock-row:hover {
+    background: var(--surface-hover);
+}
+
+[data-theme="dark"] .stock-icon {
+    background: var(--bg-secondary);
+
+    border-color: var(--border);
+}
+
+
+/* =========================================================
    MOBILE
-===================================================== */
+========================================================= */
 
 @media (max-width: 768px) {
 
@@ -221,24 +435,66 @@
 
         grid-template-columns:
             minmax(0, 1fr)
-            70px
-            60px;
+            78px
+            68px;
 
-        padding-left: var(--space-2);
-        padding-right: var(--space-2);
+        padding-left:
+            var(--space-3);
+
+        padding-right:
+            var(--space-3);
     }
 
-    .stock-label {
 
+    .market-table-header {
+        min-height: 40px;
+
+        font-size: 10px;
+    }
+
+
+    .market-stock-row {
+        min-height: 46px;
+    }
+
+
+    .stock-name {
+        gap: var(--space-2);
+    }
+
+
+    .stock-icon {
+        width: 26px;
+        height: 26px;
+
+        flex-basis: 26px;
+    }
+
+
+    .stock-label {
         font-size: var(--fs-xs);
     }
 
+
+    .stock-price,
+    .stock-change {
+        font-size: 11px;
+    }
+
+
+    .market-sector-title {
+        padding-left:
+            var(--space-3);
+
+        padding-right:
+            var(--space-3);
+    }
 }
 
 
-/* =====================================================
+/* =========================================================
    SMALL MOBILE
-===================================================== */
+========================================================= */
 
 @media (max-width: 480px) {
 
@@ -247,19 +503,69 @@
 
         grid-template-columns:
             minmax(0, 1fr)
-            62px
-            52px;
+            68px
+            58px;
 
-        padding-left: var(--space-2);
-        padding-right: var(--space-2);
+        padding-left:
+            var(--space-2);
+
+        padding-right:
+            var(--space-2);
     }
+
+
+    .market-table-header {
+        min-height: 38px;
+
+        font-size: 9px;
+    }
+
+
+    .market-stock-row {
+        min-height: 44px;
+    }
+
 
     .stock-icon {
+        width: 24px;
+        height: 24px;
 
-        width: 18px;
-        height: 18px;
+        flex-basis: 24px;
 
-        flex-basis: 18px;
+        border-radius:
+            var(--radius-xs);
     }
 
+
+    .stock-label {
+        font-size: 11px;
+    }
+
+
+    .stock-price,
+    .stock-change {
+        font-size: 10px;
+    }
+
+
+    .market-sector-title {
+        min-height: 32px;
+
+        padding-left:
+            var(--space-2);
+
+        padding-right:
+            var(--space-2);
+
+        font-size: 10px;
+    }
+
+
+    .stock-change.positive::before,
+    .stock-change.negative::before {
+        width: 4px;
+        height: 4px;
+
+        margin-right: 4px;
+    }
 }

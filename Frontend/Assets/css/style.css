@@ -9,6 +9,8 @@
 @import "./pages/auth.css";
 @import "./componet/marketTable.css";
 @import "./componet/marketHeatmap.css";
+@import "./componet/stories.css";
+@import "./layout/footer.css";
 
 
 * {

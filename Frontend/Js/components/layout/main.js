@@ -1,4 +1,5 @@
 import { watchlistModal } from "../common/watchlistModal.js";
+import { Footer } from "./footer.js";
 import { navbar } from "./navbar.js";
 
 export function main(page) {
@@ -7,7 +8,8 @@ export function main(page) {
     main.append(
         navbar(),
         watchlistModal(),
-        page
+        page,
+        Footer()
     )
     return main;
 }

@@ -10,8 +10,6 @@ import { marketState } from "../state/marketState.js";
 
 export  function stockDetails(quote,stockData,latestNews) {
 
-    const currStock = marketState.selectedStock;
-
     const page = document.createElement("div");
 
     page.className = "stock-details-page";
@@ -25,7 +23,7 @@ export  function stockDetails(quote,stockData,latestNews) {
     );
 
     page.append(
-        companyHeader(currStock,quote),
+        companyHeader(quote),
         topSection,
         overview(stockData.assetProfile),
         financialMetrics(stockData),

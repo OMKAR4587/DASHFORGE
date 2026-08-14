@@ -12,7 +12,7 @@ import { signupPage } from "./pages/signup.js";
 import { stockDetails } from "./pages/stockDetail.js";
 
 import { navigate } from "./router/router.js";
-import { authState , clearAuth} from "./state/authState.js";
+import { authState, clearAuth } from "./state/authState.js";
 
 import { marketState } from "./state/marketState.js";
 import { renderPage } from "./utils/renderPage.js";
@@ -141,9 +141,10 @@ window.addEventListener("routeChange", async (event) => {
             authState.user = user;
             authState.isAuthenticated = true;
 
+            const dashboardPage = await dashboard()
             // Render dashboard
             renderPage(
-                dashboard()
+                dashboardPage
             );
 
 
@@ -184,36 +185,49 @@ window.addEventListener("routeChange", async (event) => {
             navigate("/login");
             return;
         }
-        const quote = await getQuote(
-            marketState.selectedStock.symbol
-        );
+        const symbol = path.split("/")[2]?.toUpperCase();
+
+        if (!symbol) {
+            console.error("stock symbol missing from the routes:", path);
+            navigate("/dashboard");
+            return;
+        }
+
+        try {
+            const quote = await getQuote(symbol);
 
 
-        const latestNews = await getNews(
-            marketState.selectedStock.symbol
-        );
+            const latestNews = await getNews(symbol);
 
 
-        const stockData = await getStockData(
-            marketState.selectedStock.symbol
-        );
+            const stockData = await getStockData(symbol);
+
+            marketState.selectedStock = {
+                symbol
+            };
+
+            renderPage(
+                stockDetails(
+                    quote,
+                    stockData,
+                    latestNews
+                )
+            );
 
 
-        renderPage(
-            stockDetails(
-                quote,
-                stockData,
-                latestNews
-            )
-        );
+            await initStcokChart(symbol);
+            lucide.createIcons();
 
+        } catch (error) {
 
-        await initStcokChart(
-            marketState.selectedStock.symbol
-        );
+            console.error(
+                `Failed to load stock ${symbol}:`,
+                error
+            );
 
+            navigate("/dashboard");
 
-        lucide.createIcons();
+        }
 
         return;
     }
