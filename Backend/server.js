@@ -27,6 +27,6 @@ app.get("/",(req, res)=>{
 });
 
 await connectDb()
-app.listen(PORT,()=>{
+app.listen(PORT,"0.0.0.0",()=>{
     console.log(`server is running on port number: ${PORT}`)
 });
