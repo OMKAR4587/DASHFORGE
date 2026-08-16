@@ -7,5 +7,6 @@ export const marketState = {
     selectedStock: null,
     watchlist: JSON.parse(
         localStorage.getItem("watchlist")
-    ) || []
+    ) || [],
+    selectedHeatmapCategory:null
 }

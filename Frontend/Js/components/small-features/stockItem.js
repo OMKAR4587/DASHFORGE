@@ -46,9 +46,9 @@ export function createStockItem(stock){
 
         <div class="stock-price">
 
-            <h4>${Number(stock.close).toFixed(2)}</h4>
+            <h4>$${Number(stock.close).toFixed(2)}</h4>
 
-            <span class"${Number(stock.change)>=0?'positive':'negative'}">
+            <span class=${Number(stock.change)>=0?'positive':'negative'}>
              ${Number(stock.change)>=0?"+":""}
              ${Number(stock.percent_change).toFixed(2)}%
             </span>

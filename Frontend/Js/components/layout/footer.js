@@ -17,7 +17,7 @@ export function Footer() {
             <div class="footer-brand">
 
                 <div class="footer-brand-logo">
-                    <BarChart3 size="22"></BarChart3>
+                     <i data-lucide="chart-no-axes-combined"></i>
                 </div>
 
                 <div class="footer-brand-content">
@@ -67,17 +67,17 @@ export function Footer() {
 
                 <h3>Discover</h3>
 
-                <a href="/dashboard">
+                <a href="/">
                     <Newspaper size="16"></Newspaper>
                     Latest Stories
                 </a>
 
-                <a href="/dashboard">
+                <a href="/">
                     <TrendingUp size="16"></TrendingUp>
                     Trending Stocks
                 </a>
 
-                <a href="/dashboard">
+                <a href="/">
                     <BarChart3 size="16"></BarChart3>
                     Market Charts
                 </a>
@@ -90,17 +90,17 @@ export function Footer() {
 
                 <h3>Platform</h3>
 
-                <a href="#">
+                <a href="/">
                     <ShieldCheck size="16"></ShieldCheck>
                     Data & Security
                 </a>
 
-                <a href="#">
+                <a href="/">
                     <Mail size="16"></Mail>
                     Contact
                 </a>
 
-                <a href="#">
+                <a href="/">
                     <ShieldCheck size="16"></ShieldCheck>
                     Privacy
                 </a>
@@ -118,38 +118,25 @@ export function Footer() {
                     market updates and product news.
                 </p>
 
-                <div class="footer-socials">
+               <div class="footer-socials">
 
-                    <a
-                        href="#"
-                        aria-label="GitHub"
-                    >
-                        <Github size="18"></Github>
-                    </a>
+    <a href="/" class="footer-social" aria-label="Home">
+        <i data-lucide="house"></i>
+    </a>
 
-                    <a
-                        href="#"
-                        aria-label="LinkedIn"
-                    >
-                        <Linkedin size="18"></Linkedin>
-                    </a>
+    <a href="/" class="footer-social" aria-label="Website">
+        <i data-lucide="globe-2"></i>
+    </a>
 
-                    <a
-                        href="#"
-                        aria-label="Twitter"
-                    >
-                        <Twitter size="18"></Twitter>
-                    </a>
+    <a href="mailto:" class="footer-social" aria-label="Email">
+        <i data-lucide="mail"></i>
+    </a>
 
-                    <a
-                        href="#"
-                        aria-label="Email"
-                    >
-                        <Mail size="18"></Mail>
-                    </a>
+    <a href="/" class="footer-social" aria-label="External link">
+        <i data-lucide="external-link"></i>
+    </a>
 
-                </div>
-
+</div>
             </div>
 
         </div>

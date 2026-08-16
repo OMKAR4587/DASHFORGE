@@ -526,14 +526,14 @@
 
     .navbar {
 
-        grid-template-columns: auto auto;
+        /* grid-template-columns: auto auto; */
 
         padding: 0 var(--space-4);
 
     }
 
     .navbar-center {
-        display: none;
+        /* display: none; */
 
     }
 
@@ -551,7 +551,8 @@
     }
 
     .profile-btn {
-
+        display: flex;
+        gap: 3px;
         min-width: auto;
 
         padding: 0 10px;
@@ -576,6 +577,7 @@
 
     .icon-btn,
     .moon {
+        display: none;
         border: none;
         width: 40px;
 
