@@ -337,7 +337,7 @@ export function loginPage() {
             try {
 
                 const response = await fetch(
-                    "http://localhost:5000/auth/login",
+                    "https://dashforge-3tqz.onrender.com/auth/login",
                     {
                         method: "POST",
                         headers: {

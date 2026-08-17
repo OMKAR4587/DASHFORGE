@@ -1,8 +1,8 @@
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://dashforge-3tqz.onrender.com";
 
 export async function searchStocksApi(query) {
 
-    const res = await fetch(`${BASE_URL}/market/search?q=${query}`);
+    const res = await fetch(`${BASE_URL}/api/market/search?q=${query}`);
     
     const data = await res.json();
 
@@ -11,7 +11,7 @@ export async function searchStocksApi(query) {
 
 export async function getStockData(symbol){
 
-    const res = await fetch(`${BASE_URL}/market/profile?symbol=${symbol}`)
+    const res = await fetch(`${BASE_URL}/api/market/profile?symbol=${symbol}`)
 
     const data = await res.json();
 

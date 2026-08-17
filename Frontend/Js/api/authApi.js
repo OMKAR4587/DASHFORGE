@@ -1,8 +1,9 @@
 export async function getCurrentUser() {
+    const BASEURL = "https://dashforge-3tqz.onrender.com";
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:5000/auth/me", {
+    const response = await fetch(`${BASEURL}/auth/me`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
     })

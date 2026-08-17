@@ -1,9 +1,9 @@
 import { errorPanel } from "../components/common/errorPanel.js";
 
-const BASEURL = "http://localhost:5000/api"
+const BASEURL = "https://dashforge-3tqz.onrender.com";
 
 export async function getHistory(symbol, range) {
-    const response = await fetch(`${BASEURL}/market/history?symbol=${symbol}&range=${range}`)
+    const response = await fetch(`${BASEURL}/api/market/history?symbol=${symbol}&range=${range}`)
 
     if (!response.ok) {
         throw new Error('fail to fetch quotes');
@@ -14,7 +14,7 @@ export async function getHistory(symbol, range) {
 }
 
 export async function getQuotes(symbols) {
-    const response = await fetch(`${BASEURL}/market/quotes?symbols=${symbols.join(",")}`)
+    const response = await fetch(`${BASEURL}/api/market/quotes?symbols=${symbols.join(",")}`)
     if(!response.ok){
        throw new Error('fail to fetch quotes');
        errorPanel(Error)
@@ -33,7 +33,7 @@ export async function getQuote(symbol){
 }
 export async function getNews(symbol){
     
-    const response = await fetch(`${BASEURL}/market/news?symbol=${symbol}`);
+    const response = await fetch(`${BASEURL}/api/market/news?symbol=${symbol}`);
 
     if(!response.ok){
         throw new Error("failed to fatche api");   
@@ -47,7 +47,7 @@ export async function getNews(symbol){
 export async function marketNews() {
 
     const response = await fetch(
-        `${BASEURL}/market/market-news`
+        `${BASEURL}/api/market/market-news`
     );
 
     if (!response.ok) {

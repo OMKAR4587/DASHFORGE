@@ -420,7 +420,7 @@ export function signupPage() {
             try {
 
                 const response = await fetch(
-                    "http://localhost:5000/auth/signup",
+                    "https://dashforge-3tqz.onrender.com/auth/signup",
                     {
                         method: "POST",
 
