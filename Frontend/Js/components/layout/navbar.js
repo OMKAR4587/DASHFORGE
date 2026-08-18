@@ -1,4 +1,3 @@
-import { dashboard } from "../../pages/dashboard.js";
 import { navigate } from "../../router/router.js";
 import { searchStocks } from "../../service/searchService.js";
 import { marketState } from "../../state/marketState.js";
@@ -14,101 +13,209 @@ export function navbar() {
 
     nav.innerHTML = `
 
-        <div class="navbar-left">
+        <!-- LEFT BRAND -->
+        <div class="navbar-brand">
 
-            <img
-                src="./Assets/imgs/Logo.jpg"
-                class="logo"
-                alt="Market Monitor Logo"
-            >
+            <div class="brand-logo">
+                <img
+                    src="./Assets/imgs/Logo.jpg"
+                    alt="DashForge Logo"
+                >
+            </div>
 
-            <div class="page-info">
+            <div class="brand-info">
 
-                <h1 class="page-title">
-                    Market Monitor
-                </h1>
+                <div class="brand-name">
+                    DashForge
+                </div>
 
-                <p class="page-subtitle">
-                    Live Stock Dashboard
-                </p>
+                <div class="brand-status">
+                    <span class="status-dot"></span>
+                    <span>Market Terminal</span>
+                </div>
 
             </div>
 
         </div>
 
-        <div class="navbar-center">
+
+        <!-- CENTER SEARCH -->
+        <div class="navbar-search-area">
 
             <div class="search-box">
 
-                <i data-lucide="search"></i>
+                <div class="search-icon">
+                    <i data-lucide="search"></i>
+                </div>
 
                 <input
                     type="text"
-                    placeholder="Search stocks, ETFs..."
+                    placeholder="Search stocks, ETFs, companies..."
+                    autocomplete="off"
                 >
+
+                <div class="search-shortcut">
+                    <span>⌘</span>
+                    <span>K</span>
+                </div>
 
             </div>
 
         </div>
 
-        <div class="navbar-right"> 
-            <button class="icon-btn moon">
-               
-                <i data-lucide="moon"></i>
 
+        <!-- RIGHT ACTIONS -->
+        <div class="navbar-actions">
+
+            <button
+                class="nav-action-btn theme-btn"
+                aria-label="Toggle theme"
+            >
+                <i data-lucide="moon"></i>
             </button>
 
-            <button class="icon-btn">
+
+            <button
+                class="nav-action-btn notification-btn"
+                aria-label="Notifications"
+            >
 
                 <i data-lucide="bell"></i>
 
+                <span class="notification-dot"></span>
+
             </button>
+
+
+            <div class="navbar-profile">
+            </div>
 
         </div>
 
     `;
 
-    const input = nav.querySelector(".search-box input");
 
-    const logoClick = nav.querySelector(".navbar-left");
+    /* =========================
+       DOM
+    ========================= */
 
-    logoClick.addEventListener("click", ()=>{
-        navigate("/dashboard")
-    })
+    const input =
+        nav.querySelector(".search-box input");
+
+    const brand =
+        nav.querySelector(".navbar-brand");
+
+    const profileContainer =
+        nav.querySelector(".navbar-profile");
+
+
+    /* =========================
+       BRAND CLICK
+    ========================= */
+
+    brand.addEventListener("click", () => {
+
+        navigate("/dashboard");
+
+    });
+
+
+    /* =========================
+       SEARCH
+    ========================= */
 
     const searchHandler = debounce(async (e) => {
-        console.log("Input:", e.target.value);
-        const value = e.target.value.trim();
-        const old = nav.querySelector(".search-dropdown");
 
-        if (old) {
-            old.remove()
+        const value =
+            e.target.value.trim();
+
+        const oldDropdown =
+            nav.querySelector(".search-dropdown");
+
+        if (oldDropdown) {
+            oldDropdown.remove();
         }
 
         if (!value) return;
 
-        const stocks = await searchStocks(value);
+        try {
 
-        const dropdown = searchDropdown(stocks, (stock) => {
+            const stocks =
+                await searchStocks(value);
 
-            marketState.selectedStock = stock
-            input.value = "";
+            const dropdown =
+                searchDropdown(
+                    stocks,
+                    (stock) => {
 
-            document.querySelector(".search-dropdown")?.remove();
-            navigate(`/stock/${stock.symbol}`);
+                        marketState.selectedStock =
+                            stock;
 
-        });
+                        input.value = "";
 
-        nav.querySelector(".search-box")
-            .append(dropdown);
+                        nav
+                            .querySelector(
+                                ".search-dropdown"
+                            )
+                            ?.remove();
 
-    }, 300)
+                        navigate(
+                            `/stock/${stock.symbol}`
+                        );
 
-    input.addEventListener("input", searchHandler);
+                    }
+                );
 
-    const right = nav.querySelector(".navbar-right");
-    right.append(profileDropdown());
-    
+            nav
+                .querySelector(".search-box")
+                .append(dropdown);
+
+        } catch (error) {
+
+            console.error(
+                "Search error:",
+                error
+            );
+
+        }
+
+    }, 300);
+
+
+    input.addEventListener(
+        "input",
+        searchHandler
+    );
+
+
+    /* =========================
+       CLEAR DROPDOWN
+    ========================= */
+
+    input.addEventListener(
+        "focus",
+        () => {
+
+            if (input.value.trim()) {
+
+                input.dispatchEvent(
+                    new Event("input")
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       PROFILE
+    ========================= */
+
+    profileContainer.append(
+        profileDropdown()
+    );
+
+
     return nav;
-
 }
