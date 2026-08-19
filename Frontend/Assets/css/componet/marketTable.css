@@ -1,73 +1,122 @@
-/* =========================================================
-   MARKET TABLE
-   MARKET MONITOR DESIGN SYSTEM
-========================================================= */
-
 .market-table-card {
     width: 100%;
-    min-width: 0;
-
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--card-radius);
-
     overflow: hidden;
 
-    box-shadow: var(--shadow-sm);
+    background: var(--surface);
 
-    transition:
-        box-shadow var(--transition-normal),
-        border-color var(--transition-normal),
-        transform var(--transition-normal);
-}
+    border: 1px solid var(--border);
+    border-radius: 20px;
 
-.market-table-card:hover {
-    box-shadow: var(--shadow-md);
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.055);
 }
 
 
 /* =========================================================
-   TABLE HEADER
+   HEADER
 ========================================================= */
 
-.market-table-header {
-    display: grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        90px
-        80px;
-
+.market-card-header {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    min-height: 42px;
-
-    padding:
-        0
-        var(--space-4);
-
-    background: var(--bg-secondary);
+    padding: 22px 22px 20px;
 
     border-bottom: 1px solid var(--border);
+}
+
+.market-card-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    min-width: 0;
+}
+
+.market-card-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 9%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 16%,
+            var(--border)
+        );
+
+    color: var(--primary);
+}
+
+.market-card-heading h2 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 16px;
+    font-weight: 750;
+
+    line-height: 1.2;
+
+    letter-spacing: -0.025em;
+}
+
+.market-card-heading p {
+    margin: 4px 0 0;
 
     color: var(--text-muted);
 
-    font-size: var(--fs-xs);
+    font-family: var(--font-primary);
 
-    font-weight: var(--fw-semibold);
-
-    letter-spacing: .02em;
-
-    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
 }
 
-.market-table-header span {
-    white-space: nowrap;
+.market-card-count {
+    display: flex;
+    align-items: baseline;
+
+    gap: 5px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
 }
 
-.market-table-header span:nth-child(2),
-.market-table-header span:nth-child(3) {
-    text-align: right;
+.market-card-count strong {
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 14px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   MARKET
+========================================================= */
+
+.market-table {
+    padding: 8px 10px 12px;
 }
 
 
@@ -75,352 +124,296 @@
    SECTOR
 ========================================================= */
 
-.market-sector-title {
+.market-sector {
+    padding: 0 4px;
+}
+
+.market-sector + .market-sector {
+    margin-top: 8px;
+}
+
+.market-sector-heading {
     display: flex;
     align-items: center;
 
-    min-height: 34px;
+    gap: 8px;
 
-    padding:
-        0
-        var(--space-4);
+    height: 38px;
 
-    background:
-        linear-gradient(
-            90deg,
-            var(--surface-hover),
-            var(--surface)
-        );
+    padding: 0 10px;
+}
 
-    border-bottom: 1px solid var(--border);
+.market-sector-name {
+    color: var(--text-muted);
 
-    color: var(--text-secondary);
+    font-family: var(--font-primary);
 
-    font-size: var(--fs-xs);
+    font-size: 10px;
+    font-weight: 750;
 
-    font-weight: var(--fw-bold);
+    letter-spacing: 0.1em;
 
-    letter-spacing: .04em;
+    white-space: nowrap;
+}
 
-    text-transform: uppercase;
+.market-sector-count {
+    min-width: 20px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 6px;
+
+    border-radius: 6px;
+
+    background: var(--surface-hover);
+
+    border: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.market-sector-divider {
+    height: 1px;
+
+    flex: 1;
+
+    margin-left: 4px;
+
+    background: var(--border);
 }
 
 
 /* =========================================================
-   STOCK ROW
+   STOCK
 ========================================================= */
 
-.market-stock-row {
-    position: relative;
-
+.market-stock {
     display: grid;
 
     grid-template-columns:
         minmax(0, 1fr)
-        90px
-        80px;
+        auto
+        18px;
 
     align-items: center;
 
-    min-height: 48px;
+    gap: 16px;
 
-    padding:
-        0
-        var(--space-4);
+    min-height: 66px;
 
-    background: var(--surface);
+    padding: 8px 10px;
 
-    border-bottom: 1px solid var(--border);
+    border: 1px solid transparent;
 
-    color: var(--text);
+    border-radius: 13px;
 
     cursor: pointer;
 
     transition:
-        background var(--transition-fast),
-        transform var(--transition-fast),
-        box-shadow var(--transition-fast);
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
 }
 
-.market-stock-row:last-child {
-    border-bottom: none;
-}
-
-
-/* =========================================================
-   ROW HOVER
-========================================================= */
-
-.market-stock-row:hover {
+.market-stock:hover {
     background: var(--surface-hover);
-}
 
+    border-color: var(--border);
 
-/*
- * Small primary indicator on hover.
- */
-
-.market-stock-row::before {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 7px;
-    bottom: 7px;
-
-    width: 3px;
-
-    background: var(--primary);
-
-    border-radius:
-        0
-        var(--radius-full)
-        var(--radius-full)
-        0;
-
-    opacity: 0;
-
-    transform: scaleY(.4);
-
-    transition:
-        opacity var(--transition-fast),
-        transform var(--transition-fast);
-}
-
-.market-stock-row:hover::before {
-    opacity: 1;
-
-    transform: scaleY(1);
+    transform: translateX(2px);
 }
 
 
 /* =========================================================
-   STOCK NAME
+   IDENTITY
 ========================================================= */
 
-.stock-name {
-    min-width: 0;
-
+.market-stock-identity {
     display: flex;
-
     align-items: center;
 
-    gap: var(--space-3);
+    gap: 11px;
+
+    min-width: 0;
 }
 
+.stock-logo {
+    width: 38px;
+    height: 38px;
 
-/* =========================================================
-   STOCK ICON
-========================================================= */
-
-.stock-icon {
-    width: 28px;
-    height: 28px;
-
-    flex: 0 0 28px;
+    flex: 0 0 38px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    border-radius: var(--radius-sm);
+    border-radius: 11px;
 
-    background: var(--bg-secondary);
+    background: var(--surface-hover);
 
     border: 1px solid var(--border);
 
-    color: var(--text-secondary);
-
-    font-size: 9px;
-
-    font-weight: var(--fw-bold);
-
-    overflow: hidden;
-
-    transition:
-        background var(--transition-fast),
-        border-color var(--transition-fast),
-        transform var(--transition-fast);
-}
-
-.market-stock-row:hover .stock-icon {
-    background: var(--primary-light);
-
-    border-color: var(--primary);
-
-    color: var(--primary);
-
-    transform: scale(1.04);
-}
-
-
-/* =========================================================
-   STOCK LABEL
-========================================================= */
-
-.stock-label {
-    min-width: 0;
-
-    overflow: hidden;
-
-    white-space: nowrap;
-
-    text-overflow: ellipsis;
-
     color: var(--text);
 
-    font-size: var(--fs-sm);
+    font-family: var(--font-heading);
 
-    font-weight: var(--fw-semibold);
+    font-size: 12px;
+    font-weight: 800;
+
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.market-stock:hover .stock-logo {
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 8%,
+            var(--surface-hover)
+        );
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            var(--border)
+        );
+}
+
+.stock-details {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    min-width: 0;
+}
+
+.stock-symbol {
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 13px;
+    font-weight: 750;
+
+    line-height: 1.15;
+}
+
+.stock-company {
+    overflow: hidden;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    font-weight: 500;
 
     line-height: 1.2;
 
-    transition: color var(--transition-fast);
-}
-
-.market-stock-row:hover .stock-label {
-    color: var(--primary);
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 
 /* =========================================================
-   PRICE
+   VALUE
 ========================================================= */
+
+.market-stock-value {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
 
 .stock-price {
     color: var(--text);
 
-    font-family: var(--font-mono);
+    font-family: var(--font-heading);
 
-    font-size: var(--fs-xs);
-
-    font-weight: var(--fw-medium);
-
-    text-align: right;
-
-    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 700;
 
     font-variant-numeric: tabular-nums;
+
+    white-space: nowrap;
 }
 
+.stock-movement {
+    min-width: 65px;
 
-/* =========================================================
-   CHANGE
-========================================================= */
-
-.stock-change {
     display: inline-flex;
-
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
 
-    min-width: 0;
+    gap: 3px;
 
-    font-family: var(--font-mono);
+    padding: 5px 7px;
 
-    font-size: var(--fs-xs);
+    border-radius: 7px;
 
-    font-weight: var(--fw-semibold);
+    font-family: var(--font-primary);
 
-    text-align: right;
-
-    white-space: nowrap;
+    font-size: 10px;
+    font-weight: 750;
 
     font-variant-numeric: tabular-nums;
 }
 
+.stock-movement.is-positive {
+    color: #16a34a;
 
-/* =========================================================
-   POSITIVE
-========================================================= */
-
-.stock-change.positive {
-    color: var(--success);
-
-    text-shadow:
-        0 0 12px
-        color-mix(
-            in srgb,
-            var(--success) 20%,
-            transparent
-        );
-}
-
-
-/* =========================================================
-   NEGATIVE
-========================================================= */
-
-.stock-change.negative {
-    color: var(--danger);
-
-    text-shadow:
-        0 0 12px
-        color-mix(
-            in srgb,
-            var(--danger) 20%,
-            transparent
-        );
-}
-
-
-/* =========================================================
-   OPTIONAL CHANGE PILL
-   If your HTML uses only text, this still remains harmless.
-========================================================= */
-
-.stock-change.positive::before,
-.stock-change.negative::before {
-    content: "";
-
-    width: 5px;
-    height: 5px;
-
-    margin-right: 6px;
-
-    border-radius: var(--radius-full);
-
-    background: currentColor;
-
-    opacity: .8;
-}
-
-
-/* =========================================================
-   DARK THEME
-========================================================= */
-
-[data-theme="dark"] .market-table-card {
-    box-shadow: var(--shadow-sm);
-}
-
-[data-theme="dark"] .market-table-header {
-    background: var(--bg-secondary);
-}
-
-[data-theme="dark"] .market-sector-title {
     background:
-        linear-gradient(
-            90deg,
-            var(--surface-hover),
-            var(--surface)
+        color-mix(
+            in srgb,
+            #16a34a 9%,
+            transparent
         );
 }
 
-[data-theme="dark"] .market-stock-row {
-    background: var(--surface);
+.stock-movement.is-negative {
+    color: #dc2626;
+
+    background:
+        color-mix(
+            in srgb,
+            #dc2626 9%,
+            transparent
+        );
 }
 
-[data-theme="dark"] .market-stock-row:hover {
-    background: var(--surface-hover);
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.market-stock-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--text-muted);
+
+    opacity: 0.45;
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease;
 }
 
-[data-theme="dark"] .stock-icon {
-    background: var(--bg-secondary);
+.market-stock:hover .market-stock-arrow {
+    opacity: 1;
 
-    border-color: var(--border);
+    color: var(--text);
+
+    transform: translateX(2px);
 }
 
 
@@ -428,144 +421,78 @@
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
 
-    .market-table-header,
-    .market-stock-row {
+    .market-card-header {
+        padding: 18px 16px;
+    }
 
+    .market-table {
+        padding: 6px 6px 10px;
+    }
+
+    .market-stock {
         grid-template-columns:
             minmax(0, 1fr)
-            78px
-            68px;
+            auto
+            14px;
 
-        padding-left:
-            var(--space-3);
+        gap: 8px;
 
-        padding-right:
-            var(--space-3);
+        min-height: 60px;
+
+        padding: 7px 8px;
     }
 
+    .market-stock-value {
+        flex-direction: column;
+        align-items: flex-end;
 
-    .market-table-header {
-        min-height: 40px;
-
-        font-size: 10px;
+        gap: 4px;
     }
 
-
-    .market-stock-row {
-        min-height: 46px;
+    .stock-price {
+        font-size: 12px;
     }
 
+    .stock-movement {
+        min-width: 58px;
 
-    .stock-name {
-        gap: var(--space-2);
-    }
-
-
-    .stock-icon {
-        width: 26px;
-        height: 26px;
-
-        flex-basis: 26px;
-    }
-
-
-    .stock-label {
-        font-size: var(--fs-xs);
-    }
-
-
-    .stock-price,
-    .stock-change {
-        font-size: 11px;
-    }
-
-
-    .market-sector-title {
-        padding-left:
-            var(--space-3);
-
-        padding-right:
-            var(--space-3);
-    }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-    .market-table-header,
-    .market-stock-row {
-
-        grid-template-columns:
-            minmax(0, 1fr)
-            68px
-            58px;
-
-        padding-left:
-            var(--space-2);
-
-        padding-right:
-            var(--space-2);
-    }
-
-
-    .market-table-header {
-        min-height: 38px;
+        padding: 4px 6px;
 
         font-size: 9px;
     }
 
+    .stock-logo {
+        width: 34px;
+        height: 34px;
 
-    .market-stock-row {
-        min-height: 44px;
+        flex-basis: 34px;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .market-card-count {
+        display: none;
     }
 
-
-    .stock-icon {
-        width: 24px;
-        height: 24px;
-
-        flex-basis: 24px;
-
-        border-radius:
-            var(--radius-xs);
+    .market-card-heading h2 {
+        font-size: 15px;
     }
 
-
-    .stock-label {
-        font-size: 11px;
+    .stock-company {
+        max-width: 130px;
     }
 
-
-    .stock-price,
-    .stock-change {
-        font-size: 10px;
+    .market-stock-arrow {
+        display: none;
     }
 
-
-    .market-sector-title {
-        min-height: 32px;
-
-        padding-left:
-            var(--space-2);
-
-        padding-right:
-            var(--space-2);
-
-        font-size: 10px;
-    }
-
-
-    .stock-change.positive::before,
-    .stock-change.negative::before {
-        width: 4px;
-        height: 4px;
-
-        margin-right: 4px;
+    .market-stock {
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto;
     }
 }

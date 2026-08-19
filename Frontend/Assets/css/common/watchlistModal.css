@@ -1,440 +1,1022 @@
-/* ===========================
-   WATCHLIST MODAL
-=========================== */
+/* =========================================================
+   WATCHLIST
+========================================================= */
 
-.watchlist-modal{
-    position:fixed;
-    inset:0;
-    z-index:9999;
+.watchlist-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
 }
 
-.watchlist-modal.hidden{
-    display:none;
+.watchlist-modal.hidden {
+    display: none;
 }
 
-/* Overlay */
 
-.watchlist-overlay{
-    position:absolute;
-    inset:0;
-    background:rgba(15,23,42,.45);
-    backdrop-filter:blur(4px);
+/* =========================================================
+   BACKDROP
+========================================================= */
+
+.watchlist-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--text) 42%,
+            transparent
+        );
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    animation: watchlistOverlayIn .25s ease;
 }
 
-/* ===========================
-   DRAWER
-=========================== */
 
-.watchlist-panel{
-    position:absolute;
-    right:0;
-    top:0;
+/* =========================================================
+   PANEL
+========================================================= */
 
-    width:400px;
-    max-width:100%;
-    height:100vh;
+.watchlist-panel {
+    position: absolute;
 
-    display:flex;
-    flex-direction:column;
+    top: 0;
+    right: 0;
 
-    background:var(--surface);
+    width: 470px;
+    max-width: 100%;
 
-    border-left:1px solid var(--border);
+    height: 100dvh;
 
-    box-shadow:-10px 0 35px rgba(0,0,0,.12);
+    display: flex;
+    flex-direction: column;
 
-    animation:slideDrawer .25s ease;
+    background: var(--surface);
+
+    border-left: 1px solid var(--border);
+
+    box-shadow:
+        -24px 0 70px rgba(0, 0, 0, .16);
+
+    overflow: hidden;
+
+    animation:
+        watchlistPanelIn
+        .32s
+        cubic-bezier(.16, 1, .3, 1);
 }
 
-/* ===========================
+
+/* =========================================================
    HEADER
-=========================== */
+========================================================= */
 
-.watchlist-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.watchlist-header {
 
-    padding:1.25rem 1.4rem;
+    position: relative;
 
-    border-bottom:1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    background:var(--surface);
+    padding: 22px 22px 20px;
 
-    position:sticky;
-    top:0;
-    z-index:2;
+    background:
+        linear-gradient(
+            180deg,
+            var(--surface),
+            var(--surface-hover)
+        );
+
+    border-bottom: 1px solid var(--border);
+
 }
 
-.watchlist-title{
-    display:flex;
-    flex-direction:column;
-    gap:.2rem;
+
+/* subtle top accent */
+
+.watchlist-header::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary),
+            color-mix(
+                in srgb,
+                var(--primary) 20%,
+                transparent
+            )
+        );
+
 }
 
-.watchlist-title h2{
-    margin:0;
-    font-size:1.2rem;
-    font-weight:700;
+
+/* =========================================================
+   HEADER MAIN
+========================================================= */
+
+.watchlist-header-main {
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 0;
+
 }
 
-.watchlist-title small{
-    color:var(--text-secondary);
-    font-size:.8rem;
+
+.watchlist-icon {
+
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    color: var(--primary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 9%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 18%,
+            var(--border)
+        );
+
+    box-shadow:
+        inset 0 1px 0
+        rgba(255,255,255,.08);
 }
 
-.close-watchlist{
-    width:42px;
-    height:42px;
 
-    border:none;
-    border-radius:12px;
+.watchlist-icon svg {
 
-    background:transparent;
+    width: 19px;
+    height: 19px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    stroke-width: 1.8;
 
-    cursor:pointer;
-
-    transition:.25s;
 }
 
-.close-watchlist:hover{
-    background:rgba(37,99,235,.08);
-    color:var(--primary);
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.watchlist-heading {
+
+    min-width: 0;
+
 }
 
-/* ===========================
+
+.watchlist-title-row {
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+}
+
+
+.watchlist-title-row h2 {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 18px;
+
+    font-weight: var(--fw-bold);
+
+    letter-spacing: -.035em;
+
+    line-height: 1.15;
+
+}
+
+
+.watchlist-count {
+
+    min-width: 23px;
+    height: 21px;
+
+    padding: 0 7px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 6px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+
+    font-weight: var(--fw-bold);
+
+    font-variant-numeric: tabular-nums;
+
+}
+
+
+.watchlist-heading p {
+
+    margin: 5px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    font-weight: var(--fw-medium);
+
+}
+
+
+/* =========================================================
+   CLOSE
+========================================================= */
+
+.close-watchlist {
+
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: var(--surface);
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+
+    transition:
+        color .18s ease,
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+
+}
+
+
+.close-watchlist:hover {
+
+    color: var(--text);
+
+    background: var(--surface-hover);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--text) 20%,
+            var(--border)
+        );
+
+}
+
+
+.close-watchlist:active {
+
+    transform: scale(.93);
+
+}
+
+
+.close-watchlist svg {
+
+    width: 17px;
+    height: 17px;
+
+    stroke-width: 1.8;
+
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.watchlist-toolbar {
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 22px;
+
+    background: var(--surface);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+/* market status */
+
+.watchlist-summary {
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    font-weight: var(--fw-medium);
+
+}
+
+
+.watchlist-summary strong {
+
+    color: var(--text-secondary);
+
+    font-weight: var(--fw-bold);
+
+}
+
+
+.market-indicator {
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--success);
+
+    box-shadow:
+        0 0 0 4px
+        color-mix(
+            in srgb,
+            var(--success) 10%,
+            transparent
+        );
+
+}
+
+
+/* refresh */
+
+.watchlist-refresh {
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: var(--text-muted);
+
+    cursor: pointer;
+
+    transition: .18s ease;
+
+}
+
+
+.watchlist-refresh:hover {
+
+    color: var(--primary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 7%,
+            transparent
+        );
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 20%,
+            var(--border)
+        );
+
+}
+
+
+.watchlist-refresh svg {
+
+    width: 14px;
+    height: 14px;
+
+}
+
+
+/* =========================================================
    CONTENT
-=========================== */
+========================================================= */
 
-.watchlist-content{
-    flex:1;
+.watchlist-content {
 
-    overflow-y:auto;
+    flex: 1;
 
-    display:flex;
-    flex-direction:column;
+    min-height: 0;
 
-    gap:.9rem;
+    overflow-y: auto;
 
-    padding:1rem;
-}
+    padding: 12px;
 
-.watchlist-content::-webkit-scrollbar{
-    width:6px;
-}
+    display: flex;
+    flex-direction: column;
 
-.watchlist-content::-webkit-scrollbar-thumb{
-    background:#cbd5e1;
-    border-radius:999px;
-}
+    gap: 7px;
 
-/* ===========================
-   CARD
-=========================== */
+    scrollbar-width: thin;
 
-.watchlist-card{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:1rem;
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:18px;
-
-    transition:.25s;
-}
-
-.watchlist-card:hover{
-
-    transform:translateY(-2px);
-
-    border-color:var(--primary);
-
-    box-shadow:0 12px 24px rgba(0,0,0,.08);
+    scrollbar-color:
+        var(--border)
+        transparent;
 
 }
 
-/* ===========================
+
+.watchlist-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.watchlist-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.watchlist-content::-webkit-scrollbar-thumb {
+
+    background: var(--border);
+
+    border-radius: 999px;
+
+}
+
+
+/* =========================================================
+   STOCK CARD
+========================================================= */
+
+.watchlist-card {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    min-height: 72px;
+
+    padding: 11px 12px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    transition:
+        transform .18s ease,
+        border-color .18s ease,
+        background .18s ease,
+        box-shadow .18s ease;
+
+}
+
+
+.watchlist-card:hover {
+
+    transform: translateY(-1px);
+
+    background: var(--surface-hover);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--primary) 25%,
+            var(--border)
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(0, 0, 0, .055);
+
+}
+
+
+/* =========================================================
    LEFT
-=========================== */
+========================================================= */
 
-.watchlist-left{
+.watchlist-left {
 
-    display:flex;
-    align-items:center;
+    min-width: 0;
 
-    gap:1rem;
+    display: flex;
+    align-items: center;
 
-    min-width:0;
-
-}
-
-.watchlist-logo{
-
-    width:52px;
-    height:52px;
-
-    border-radius:14px;
-
-    object-fit:cover;
-
-    background:#fff;
-
-    border:1px solid var(--border);
-
-    flex-shrink:0;
+    gap: 11px;
 
 }
 
-.watchlist-info{
 
-    display:flex;
-    flex-direction:column;
+/* =========================================================
+   LOGO
+========================================================= */
 
-    min-width:0;
+.watchlist-logo {
 
-}
+    width: 44px;
+    height: 44px;
 
-.watchlist-info h4{
+    flex-shrink: 0;
 
-    margin:0;
+    object-fit: contain;
 
-    font-size:1rem;
+    padding: 6px;
 
-    font-weight:700;
+    border-radius: 10px;
 
-    color:var(--text);
+    background: var(--surface-hover);
 
-}
-
-.watchlist-info p{
-
-    margin-top:.3rem;
-
-    color:var(--text-secondary);
-
-    font-size:.82rem;
-
-    overflow:hidden;
-
-    text-overflow:ellipsis;
-
-    white-space:nowrap;
-
-    max-width:180px;
+    border: 1px solid var(--border);
 
 }
 
-/* ===========================
+
+/* =========================================================
+   INFO
+========================================================= */
+
+.watchlist-info {
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+.watchlist-info h4 {
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 13px;
+
+    font-weight: var(--fw-bold);
+
+    letter-spacing: -.015em;
+
+    line-height: 1.2;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.watchlist-info p {
+
+    margin: 0;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: var(--fw-medium);
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    max-width: 170px;
+
+}
+
+
+/* =========================================================
+   MARKET DATA
+========================================================= */
+
+.watchlist-market {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-end;
+
+    gap: 3px;
+
+    flex-shrink: 0;
+
+}
+
+
+.watchlist-price {
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: var(--fw-bold);
+
+    font-variant-numeric: tabular-nums;
+
+    letter-spacing: -.015em;
+
+}
+
+
+.watchlist-change {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    font-size: 9px;
+
+    font-weight: var(--fw-bold);
+
+    font-variant-numeric: tabular-nums;
+
+}
+
+
+.watchlist-change.positive {
+
+    color: var(--success);
+
+}
+
+
+.watchlist-change.negative {
+
+    color: var(--danger);
+
+}
+
+
+/* =========================================================
    ACTIONS
-=========================== */
+========================================================= */
 
-.watchlist-actions{
+.watchlist-actions {
 
-    display:flex;
+    display: flex;
+    align-items: center;
 
-    gap:.6rem;
+    gap: 4px;
+
+    margin-left: 5px;
 
 }
+
 
 .view-stock,
-.remove-stock{
+.remove-stock {
 
-    width:40px;
-    height:40px;
+    width: 31px;
+    height: 31px;
 
-    border:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    border-radius:12px;
+    padding: 0;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+    border-radius: 8px;
 
-    cursor:pointer;
+    cursor: pointer;
 
-    transition:.25s;
-}
-
-.view-stock{
-
-    background:rgba(37,99,235,.12);
-
-    color:var(--primary);
+    transition: .18s ease;
 
 }
 
-.view-stock:hover{
 
-    background:var(--primary);
+.view-stock {
 
-    color:#fff;
+    color: var(--primary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 7%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 12%,
+            var(--border)
+        );
+
+}
+
+
+.view-stock:hover {
+
+    color: white;
+
+    background: var(--primary);
+
+    border-color: var(--primary);
 
 }
 
-.remove-stock{
 
-    background:rgba(220,38,38,.08);
+.remove-stock {
 
-    color:#dc2626;
+    color: var(--danger);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--danger) 6%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--danger) 10%,
+            var(--border)
+        );
 
 }
 
-.remove-stock:hover{
 
-    background:#dc2626;
+.remove-stock:hover {
 
-    color:#fff;
+    color: white;
+
+    background: var(--danger);
+
+    border-color: var(--danger);
 
 }
+
+
+.view-stock:active,
+.remove-stock:active {
+
+    transform: scale(.92);
+
+}
+
 
 .view-stock svg,
-.remove-stock svg{
+.remove-stock svg {
 
-    width:18px;
-    height:18px;
+    width: 14px;
+    height: 14px;
+
+    stroke-width: 1.8;
 
 }
 
-/* ===========================
+
+/* =========================================================
    EMPTY STATE
-=========================== */
+========================================================= */
 
-.empty-watchlist{
+.empty-watchlist {
 
-    flex:1;
+    flex: 1;
 
-    display:flex;
-    flex-direction:column;
+    min-height: 400px;
 
-    justify-content:center;
-    align-items:center;
+    display: flex;
 
-    text-align:center;
+    flex-direction: column;
 
-    gap:.8rem;
+    align-items: center;
+    justify-content: center;
 
-    color:var(--text-secondary);
+    text-align: center;
 
-}
-
-.empty-watchlist svg{
-
-    width:56px;
-    height:56px;
-
-    color:#cbd5e1;
+    padding: 30px;
 
 }
 
-.empty-watchlist h3{
 
-    margin:0;
+.empty-watchlist-icon {
 
-    color:var(--text);
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 15px;
+
+    border-radius: 15px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 7%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 13%,
+            var(--border)
+        );
+
+    color: var(--primary);
 
 }
 
-.empty-watchlist p{
 
-    margin:0;
+.empty-watchlist-icon svg {
 
-    max-width:220px;
-
-    line-height:1.5;
+    width: 22px;
+    height: 22px;
 
 }
 
-/* ===========================
-   ANIMATION
-=========================== */
 
-@keyframes slideDrawer{
+.empty-watchlist h3 {
 
-    from{
+    margin: 0;
 
-        transform:translateX(100%);
-        opacity:.5;
+    color: var(--text);
 
+    font-family: var(--font-heading);
+
+    font-size: 15px;
+
+    font-weight: var(--fw-bold);
+
+}
+
+
+.empty-watchlist p {
+
+    max-width: 250px;
+
+    margin: 7px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes watchlistPanelIn {
+
+    from {
+        opacity: 0;
+        transform: translateX(30px);
     }
 
-    to{
-
-        transform:translateX(0);
-        opacity:1;
-
+    to {
+        opacity: 1;
+        transform: translateX(0);
     }
 
 }
 
-/* ===========================
+
+@keyframes watchlistOverlayIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================================
    MOBILE
-=========================== */
+========================================================= */
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
-    .watchlist-panel{
-
-        width:100%;
-
-    }
-
-    .watchlist-card{
-
-        padding:.9rem;
-
-    }
-
-    .watchlist-logo{
-
-        width:46px;
-        height:46px;
-
-    }
-
-    .watchlist-info p{
-
-        max-width:130px;
-
+    .watchlist-panel {
+        width: 100%;
     }
 
 }
 
-@media(max-width:480px){
 
-    .watchlist-actions{
+@media (max-width: 480px) {
 
-        gap:.4rem;
-
+    .watchlist-header {
+        padding: 18px 16px;
     }
 
-    .view-stock,
-    .remove-stock{
-
-        width:36px;
-        height:36px;
-
+    .watchlist-toolbar {
+        padding: 0 16px;
     }
 
-    .watchlist-info h4{
-
-        font-size:.9rem;
-
+    .watchlist-content {
+        padding: 10px;
     }
 
-    .watchlist-info p{
+    .watchlist-icon {
+        width: 40px;
+        height: 40px;
+    }
 
-        font-size:.75rem;
+    .watchlist-title-row h2 {
+        font-size: 16px;
+    }
 
+    .watchlist-info p {
+        max-width: 120px;
+    }
+
+    .watchlist-market {
+        display: none;
     }
 
 }

@@ -40,11 +40,7 @@
 
     display: grid;
     grid-template-columns: 2fr 430px;
-
     gap: 1.5rem;
-
-    /* margin-bottom:2rem; */
-
     align-items: stretch;
 
 }
@@ -468,87 +464,1125 @@
 
 /* overview of stock */
 
-.overview-card {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: var(--space-5);
-
-}
+/* =========================================================
+   COMPANY OVERVIEW
+========================================================= */
 
 .overview-card {
+    position: relative;
 
     display: flex;
-
     flex-direction: column;
 
-    gap: var(--space-5);
+    gap: var(--space-6);
 
+    padding: 24px;
+
+    overflow: hidden;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.045);
 }
 
-.overview-grid {
 
-    display: grid;
+/* =========================================================
+   HEADER
+========================================================= */
 
-    /* grid-template-columns:repeat(2,1fr); */
-
-    gap: var(--space-4);
-
-}
-
-.overview-item {
-
+.overview-header {
     display: flex;
-
+    align-items: flex-start;
     justify-content: space-between;
 
-    align-items: center;
+    gap: 20px;
 
-    padding-bottom: var(--space-3);
+    padding-bottom: 20px;
 
     border-bottom: 1px solid var(--border);
-
 }
 
-.overview-item span {
-
-    color: var(--text-secondary);
-
+.overview-title-group {
+    min-width: 0;
 }
 
-.overview-item strong {
+.overview-title-row {
+    display: flex;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+.overview-title-row .section-title {
+    margin: 0;
 
     color: var(--text);
 
+    font-family: var(--font-heading);
+
+    font-size: 18px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1.2;
+
+    letter-spacing: -0.035em;
+}
+
+.overview-title-group > p {
+    margin: 7px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: var(--fs-sm);
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.overview-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 7%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 18%,
+            var(--border)
+        );
+
+    color: var(--primary);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   HEADER ICON
+========================================================= */
+
+.overview-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-md);
+
+    background: var(--surface-hover);
+
+    border: 1px solid var(--border);
+
+    color: var(--text-secondary);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.company-description-wrap {
+    position: relative;
+
+    display: flex;
+
+    gap: 15px;
+
+    padding: 2px 4px;
+}
+
+.description-accent {
+    width: 3px;
+
+    flex: 0 0 3px;
+
+    align-self: stretch;
+
+    min-height: 50px;
+
+    border-radius: 4px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--primary),
+            color-mix(
+                in srgb,
+                var(--primary) 20%,
+                transparent
+            )
+        );
+}
+
+.company-description {
+    margin: 0;
+
+    max-width: 100%;
+
+    color: var(--text-secondary);
+
+    font-family: var(--font-primary);
+
+    font-size: 13px;
+    font-weight: 450;
+
+    line-height: 1.75;
+
+    letter-spacing: -0.005em;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.overview-divider {
+    width: 100%;
+    height: 1px;
+
+    background: var(--border);
+}
+
+
+/* =========================================================
+   COMPANY FACTS
+========================================================= */
+
+.company-facts {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 0;
+}
+
+
+/* =========================================================
+   FACT
+========================================================= */
+
+.company-fact {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+
+    padding: 4px 18px;
+
+    border-right: 1px solid var(--border);
+}
+
+.company-fact:first-child {
+    padding-left: 4px;
+}
+
+.company-fact:last-child {
+    padding-right: 4px;
+
+    border-right: none;
+}
+
+
+/* =========================================================
+   FACT LABEL
+========================================================= */
+
+.fact-label {
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+
+    letter-spacing: 0.04em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   FACT VALUE
+========================================================= */
+
+.fact-value {
+    overflow: hidden;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 13px;
+    font-weight: var(--fw-semibold);
+
+    line-height: 1.35;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   WEBSITE
+========================================================= */
+
+.company-website {
+    min-width: 0;
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    color: var(--primary);
+
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+
+    text-decoration: none;
+
+    transition:
+        color 0.18s ease,
+        gap 0.18s ease;
+}
+
+.company-website span {
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.company-website:hover {
+    gap: 8px;
+
+    text-decoration: none;
+}
+
+.company-website svg {
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .company-facts {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        row-gap: 20px;
+    }
+
+    .company-fact:nth-child(3) {
+        border-right: none;
+    }
+
+    .company-fact:nth-child(4) {
+        padding-left: 4px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .overview-card {
+        padding: 18px;
+
+        gap: var(--space-5);
+    }
+
+    .overview-header {
+        padding-bottom: 16px;
+    }
+
+    .overview-title-row .section-title {
+        font-size: 16px;
+    }
+
+    .overview-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .company-description {
+        font-size: 12px;
+
+        line-height: 1.7;
+    }
+
+    .company-facts {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 0;
+    }
+
+    .company-fact {
+        padding: 12px 14px;
+
+        border-right: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+
+    .company-fact:nth-child(2n) {
+        padding-right: 4px;
+
+        border-right: none;
+    }
+
+    .company-fact:nth-last-child(-n + 2) {
+        border-bottom: none;
+    }
+
+    .company-fact:first-child,
+    .company-fact:nth-child(4) {
+        padding-left: 4px;
+    }
+
+    .company-fact:nth-child(5) {
+        grid-column: 1 / -1;
+
+        padding-left: 4px;
+        padding-right: 4px;
+
+        border-bottom: none;
+        border-right: none;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .overview-card {
+        padding: 15px;
+    }
+
+    .overview-badge {
+        display: none;
+    }
+
+    .company-description-wrap {
+        gap: 11px;
+    }
+
+    .company-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .company-fact,
+    .company-fact:nth-child(2n),
+    .company-fact:nth-child(4),
+    .company-fact:nth-child(5) {
+        grid-column: auto;
+
+        padding: 12px 4px;
+
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .company-fact:last-child {
+        border-bottom: none;
+    }
 }
 
 /* financial matrix component csss */
 
-.financial-card {
+/* =========================================================
+   FINANCIAL METRICS
+========================================================= */
 
+.financial-card {
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: var(--space-6);
+
+    padding: 24px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.055);
+}
+
+
+/* =========================================================
+   TOP HEADER
+========================================================= */
+
+.financial-top {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.financial-title-group {
+    min-width: 0;
+}
+
+.financial-title-row {
+    display: flex;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.financial-title-row .section-title {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 18px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1.2;
+
+    letter-spacing: -0.035em;
+}
+
+.financial-title-group > p {
+    margin: 7px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: var(--fs-sm);
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   FUNDAMENTALS BADGE
+========================================================= */
+
+.financial-live {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 5px 8px;
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 18%,
+            var(--border)
+        );
+
+    border-radius: 6px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 6%,
+            var(--surface)
+        );
+
+    color: var(--primary);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.07em;
+}
+
+.financial-live > span {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    box-shadow:
+        0 0 0 3px
+        color-mix(
+            in srgb,
+            var(--primary) 10%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.financial-summary {
+    display: flex;
+    align-items: baseline;
+
+    gap: 5px;
+
+    flex-shrink: 0;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background: var(--surface-hover);
+
+    border: 1px solid var(--border);
+}
+
+.financial-summary span {
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 14px;
+    font-weight: var(--fw-bold);
+}
+
+.financial-summary small {
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: var(--fw-medium);
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.financial-sections {
+    display: flex;
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.financial-section {
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+.financial-section-label {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 2px;
+}
+
+.financial-section-label span {
+    flex-shrink: 0;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.11em;
+}
+
+.financial-section-label i {
+    display: block;
+
+    width: 100%;
+    height: 1px;
+
+    background: var(--border);
+}
+
+
+/* =========================================================
+   METRIC GRID
+========================================================= */
+
+.financial-metrics-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(7, minmax(0, 1fr));
+
+    gap: 1px;
+
+    overflow: hidden;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    background: var(--border);
+}
+
+.financial-financial-grid {
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   METRIC
+========================================================= */
+
+.financial-metric {
+    position: relative;
+
+    min-width: 0;
+    min-height: 118px;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 15px;
+
+    background: var(--surface);
+
+    transition:
+        background-color 0.18s ease;
+}
+
+.financial-metric:hover {
+    background: var(--surface-hover);
+}
+
+
+/* =========================================================
+   METRIC TOP
+========================================================= */
+
+.metric-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 8px;
+}
+
+.metric-label {
+    overflow: hidden;
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+    font-weight: var(--fw-semibold);
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.metric-indicator {
+    width: 5px;
+    height: 5px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 45%,
+            var(--border)
+        );
+}
+
+
+/* =========================================================
+   VALUE
+========================================================= */
+
+.metric-value {
+    display: block;
+
+    overflow: hidden;
+
+    margin-top: auto;
+    margin-bottom: 7px;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 18px;
+    font-weight: var(--fw-bold);
+
+    line-height: 1;
+
+    letter-spacing: -0.035em;
+
+    font-variant-numeric: tabular-nums;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.metric-meta {
+    display: block;
+
+    overflow: hidden;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: var(--fw-medium);
+
+    line-height: 1.2;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   SUBTLE CATEGORY ACCENTS
+========================================================= */
+
+.financial-metric-valuation .metric-indicator,
+.financial-metric-earnings .metric-indicator {
+    background: var(--primary);
+}
+
+.financial-metric-income .metric-indicator {
+    background: #16a34a;
+}
+
+.financial-metric-risk .metric-indicator {
+    background: #f59e0b;
+}
+
+.financial-metric-range .metric-indicator {
+    background: #8b5cf6;
+}
+
+.financial-metric-financial .metric-indicator {
+    background: #06b6d4;
+}
+
+.financial-metric-shares .metric-indicator {
+    background: #64748b;
+}
+
+
+/* =========================================================
+   HOVER ACCENT
+========================================================= */
+
+.financial-metric::after {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 2px;
+
+    background: var(--primary);
+
+    opacity: 0;
+
+    transition: opacity 0.18s ease;
+}
+
+.financial-metric:hover::after {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .financial-metrics-grid {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+    }
+
+    .financial-financial-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   SMALL TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .financial-card {
+        padding: 20px;
+    }
+
+    .financial-metrics-grid,
+    .financial-financial-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .financial-card {
+        padding: 16px;
+
+        gap: 20px;
+    }
+
+    .financial-top {
+        padding-bottom: 16px;
+    }
+
+    .financial-title-row {
+        gap: 7px;
+    }
+
+    .financial-title-row .section-title {
+        font-size: 16px;
+    }
+
+    .financial-live {
+        padding: 4px 6px;
+
+        font-size: 8px;
+    }
+
+    .financial-summary {
+        display: none;
+    }
+
+    .financial-metrics-grid,
+    .financial-financial-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .financial-metric {
+        min-height: 100px;
+
+        padding: 13px;
+    }
+
+    .metric-value {
+        font-size: 16px;
+    }
+}
+
+
+/* =========================================================
+   EXTRA SMALL
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .financial-metrics-grid,
+    .financial-financial-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* news section */
+/* =========================================================
+   NEWS CARD
+========================================================= */
+
+.news-card {
     display: flex;
 
     flex-direction: column;
 
     gap: var(--space-5);
 
+    padding: 22px;
+
+    overflow: hidden;
 }
 
-.financial-grid {
 
-    display: grid;
+/* =========================================================
+   HEADER
+========================================================= */
 
-    grid-template-columns: repeat(4, 1fr);
+.news-header {
+    display: flex;
 
-    gap: var(--space-4);
+    align-items: flex-start;
 
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid var(--border);
 }
 
-.metric-card {
+.news-heading {
+    min-width: 0;
+}
 
-    padding: var(--space-4);
+.news-title-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+.news-title-row .section-title {
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: var(--font-heading);
+
+    font-size: 17px;
+
+    font-weight: var(--fw-bold);
+
+    line-height: 1.2;
+
+    letter-spacing: -0.03em;
+}
+
+.news-heading > p {
+    margin: 6px 0 0;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.news-count {
+    min-width: 22px;
+    height: 20px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 6px;
+
+    border-radius: 6px;
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 8%,
+            var(--surface)
+        );
+
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--primary) 18%,
+            var(--border)
+        );
+
+    color: var(--primary);
+
+    font-size: 9px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   HEADER ICON
+========================================================= */
+
+.news-header-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     border: 1px solid var(--border);
 
@@ -556,109 +1590,473 @@
 
     background: var(--surface-hover);
 
-    display: flex;
-
-    flex-direction: column;
-
-    gap: var(--space-2);
-
-}
-
-.metric-card span {
-
     color: var(--text-secondary);
-
-    font-size: var(--fs-sm);
-
 }
 
-.metric-card strong {
 
-    color: var(--text);
+/* =========================================================
+   NEWS LIST
+========================================================= */
 
-    font-size: var(--fs-lg);
-
-    font-weight: var(--fw-bold);
-
-}
-
-@media(max-width:992px) {
-
-    .financial-grid {
-
-        grid-template-columns: repeat(2, 1fr);
-
-    }
-
-}
-
-@media(max-width:576px) {
-    .stock-chart-card {
-        padding: 20px 4px;
-    }
-
-    .stock-page-chart-header {
-        display: flex;
-        gap: 20px;
-        flex-direction: column;
-    }
-
-    .financial-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-}
-
-/* news section */
 .news-list {
     display: flex;
+
     flex-direction: column;
-    gap: 1rem;
+
+    gap: 2px;
 }
+
+
+/* =========================================================
+   NEWS ITEM
+========================================================= */
 
 .news-item {
-    display: flex;
-    gap: 1rem;
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        104px
+        minmax(0, 1fr)
+        28px;
+
+    align-items: center;
+
+    gap: 14px;
+
+    min-height: 94px;
+
+    padding: 9px;
+
+    border-radius: var(--radius-md);
+
     text-decoration: none;
+
     color: inherit;
-    padding: .8rem;
-    border-radius: 12px;
-    transition: .2s;
+
+    border: 1px solid transparent;
+
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
 }
 
+
+/* =========================================================
+   HOVER
+========================================================= */
+
 .news-item:hover {
-    background: rgba(255, 255, 255, .05);
+    background: var(--surface-hover);
+
+    border-color: var(--border);
+
+    transform: translateX(3px);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.news-image-wrap {
+    position: relative;
+
+    width: 104px;
+    height: 72px;
+
+    flex-shrink: 0;
+
+    overflow: hidden;
+
+    border-radius: 9px;
+
+    background: var(--surface-hover);
+
+    border: 1px solid var(--border);
 }
 
 .news-image {
-    width: 120px;
-    height: 80px;
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
     object-fit: cover;
-    border-radius: 10px;
-    flex-shrink: 0;
+
+    transition:
+        transform 0.35s ease;
 }
+
+.news-item:hover .news-image {
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.news-image-wrap::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            transparent 45%,
+            rgba(0, 0, 0, 0.18)
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INDEX
+========================================================= */
+
+.news-index {
+    position: absolute;
+
+    left: 6px;
+    bottom: 5px;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 23px;
+    height: 17px;
+
+    padding: 0 5px;
+
+    border-radius: 4px;
+
+    background:
+        rgba(0, 0, 0, 0.62);
+
+    color: white;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
 
 .news-content {
-    flex: 1;
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 9px;
 }
+
+
+/* =========================================================
+   TITLE
+========================================================= */
 
 .news-title {
-    font-size: 1rem;
-    line-height: 1.4;
-    margin-bottom: .6rem;
+    display: -webkit-box;
+
+    overflow: hidden;
+
+    margin: 0;
+
+    color: var(--text);
+
+    font-family: var(--font-primary);
+
+    font-size: 13px;
+
+    font-weight: var(--fw-semibold);
+
+    line-height: 1.45;
+
+    letter-spacing: -0.01em;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    transition:
+        color 0.18s ease;
 }
+
+.news-item:hover .news-title {
+    color: var(--primary);
+}
+
+
+/* =========================================================
+   META
+========================================================= */
 
 .news-meta {
+    min-width: 0;
+
     display: flex;
-    gap: .5rem;
-    color: #9ca3af;
-    font-size: .85rem;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    font-weight: var(--fw-medium);
+
+    line-height: 1.2;
 }
 
+.news-source {
+    max-width: 150px;
+
+    overflow: hidden;
+
+    color: var(--text-secondary);
+
+    font-weight: var(--fw-semibold);
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+.news-dot {
+    opacity: 0.45;
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.news-arrow {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 7px;
+
+    color: var(--text-muted);
+
+    opacity: 0;
+
+    transform: translateX(-4px);
+
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease,
+        color 0.18s ease,
+        background-color 0.18s ease;
+}
+
+.news-item:hover .news-arrow {
+    opacity: 1;
+
+    transform: translateX(0);
+
+    color: var(--primary);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--primary) 8%,
+            transparent
+        );
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
 .news-empty {
-    color: #888;
+    min-height: 220px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 30px;
+
     text-align: center;
-    padding: 2rem;
+
+    color: var(--text-muted);
+}
+
+.news-empty-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 4px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    background: var(--surface-hover);
+
+    color: var(--text-muted);
+}
+
+.news-empty strong {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    font-weight: var(--fw-semibold);
+}
+
+.news-empty > span {
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .news-card {
+        padding: 18px;
+    }
+
+    .news-item {
+        grid-template-columns:
+            90px
+            minmax(0, 1fr)
+            24px;
+
+        gap: 12px;
+    }
+
+    .news-image-wrap {
+        width: 90px;
+        height: 66px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 520px) {
+
+    .news-header {
+        padding-bottom: 15px;
+    }
+
+    .news-header-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .news-title-row .section-title {
+        font-size: 16px;
+    }
+
+    .news-item {
+        grid-template-columns:
+            82px
+            minmax(0, 1fr);
+
+        min-height: 82px;
+
+        gap: 11px;
+
+        padding: 7px;
+    }
+
+    .news-image-wrap {
+        width: 82px;
+        height: 62px;
+    }
+
+    .news-arrow {
+        display: none;
+    }
+
+    .news-content {
+        gap: 6px;
+    }
+
+    .news-title {
+        font-size: 12px;
+
+        line-height: 1.4;
+    }
+
+    .news-meta {
+        font-size: 8px;
+    }
+
+    .news-source {
+        max-width: 100px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .news-card {
+        padding: 14px;
+    }
+
+    .news-item {
+        grid-template-columns:
+            72px
+            minmax(0, 1fr);
+
+        padding: 6px;
+    }
+
+    .news-image-wrap {
+        width: 72px;
+        height: 58px;
+    }
+
+    .news-title {
+        font-size: 11px;
+    }
 }
