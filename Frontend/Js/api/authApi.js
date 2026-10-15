@@ -1,5 +1,5 @@
 export async function getCurrentUser() {
-    const BASEURL = "https://dashforge-3tqz.onrender.com";
+    const BASEURL = "https://dashforge-backend-4sb8.onrender.com";
 
     const token = localStorage.getItem("token");
 

@@ -1,4 +1,4 @@
-const BASE_URL = "https://dashforge-3tqz.onrender.com";
+const BASE_URL = "https://dashforge-backend-4sb8.onrender.com";
 
 export async function searchStocksApi(query) {
 

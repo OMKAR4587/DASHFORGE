@@ -1,6 +1,6 @@
 import { errorPanel } from "../components/common/errorPanel.js";
 
-const BASEURL = "https://dashforge-3tqz.onrender.com";
+const BASEURL = "https://dashforge-backend-4sb8.onrender.com";
 
 export async function getHistory(symbol, range) {
     const response = await fetch(`${BASEURL}/api/market/history?symbol=${symbol}&range=${range}`)
