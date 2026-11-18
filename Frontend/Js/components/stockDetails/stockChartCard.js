@@ -1,5 +1,5 @@
-import { getHistory } from "../../api/marketApi.js";
-import { initRangeEvent } from "../../utils/chartRangeEvent.js";
+// import { getHistory } from "../../api/marketApi.js";
+// import { initRangeEvent } from "../../utils/chartRangeEvent.js";
 import { chartHeader } from "../charts/chartHeader.js";
 import { createLoader } from "../common/loader.js";
 

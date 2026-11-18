@@ -1,7 +1,7 @@
 import { getHistory } from "../../api/marketApi.js";
 import { marketState } from "../../state/marketState.js";
-import { initRangeEvent } from "../../utils/chartRangeEvent.js";
-import { transformChartData } from "../../utils/transformChartData.js";
+import { initRangeEvent } from "../../state/utils/chartRangeEvent.js";
+import {transformChartData} from "../../state/utils/transformChartData.js"
 import { hideLoader, showLoader } from "../common/loader.js";
 import { createChart, updateChart } from "./stockChart.js";
 

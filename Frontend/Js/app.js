@@ -15,7 +15,7 @@ import { navigate } from "./router/router.js";
 import { authState, clearAuth } from "./state/authState.js";
 
 import { marketState } from "./state/marketState.js";
-import { renderPage } from "./utils/renderPage.js";
+import { renderPage } from "./state/utils/renderPage.js";
 
 
 const app = document.getElementById("app");

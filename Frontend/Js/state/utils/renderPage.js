@@ -1,4 +1,4 @@
-import { main } from "../components/layout/main.js";
+import { main } from "../../components/layout/main.js";
 
 const app = document.querySelector("#app");
 

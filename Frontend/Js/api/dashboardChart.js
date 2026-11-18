@@ -1,8 +1,8 @@
 import { createChart, updateChart } from "../components/charts/stockChart.js";
 import { hideLoader, showLoader } from "../components/common/loader.js";
 import { marketState } from "../state/marketState.js";
-import { initRangeEvent } from "../utils/chartRangeEvent.js";
-import { transformChartData } from "../utils/transformChartData.js";
+import { initRangeEvent } from "../state/utils/chartRangeEvent.js";
+import { transformChartData } from "../state/utils/transformChartData.js";
 import { getHistory } from "./marketApi.js";
 
 export async function initChart() {

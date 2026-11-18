@@ -1,7 +1,7 @@
 import { navigate } from "../../router/router.js";
 import { searchStocks } from "../../service/searchService.js";
 import { marketState } from "../../state/marketState.js";
-import { debounce } from "../../utils/debounce.js";
+import { debounce } from "../../state/utils/debounce.js";
 import { profileDropdown } from "../common/profileDropdown.js";
 import { searchDropdown } from "../common/searchDropedown.js";
 
